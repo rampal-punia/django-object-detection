@@ -11,9 +11,22 @@ User Model
 {% endblock leftbar %}
 
 {% block content %}
-    <div class="col-md-8 mt-3">
+    <div class="col-md-9">
         {% for model in user_models %}
-            {{model.name}}
+            <div class="card mb-3">
+                <div class="card-header">
+                    {{ model.name|capfirst }}
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Uploaded by: {{ model.uploader|capfirst }}</li>
+                        <li class="list-group-item">Class file name: {{ model.class_filename }}</li>
+                        <li class="list-group-item">classes: {{ model.get_classesname }}</li>
+                        <li class="list-group-item">Version: {{ model.version }}</li>
+                        <li class="list-group-item">Description: {{ model.description }}</li>
+                    </ul>
+                </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock content %}

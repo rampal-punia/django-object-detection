@@ -44,6 +44,12 @@ class UserMLModelListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return super().get_queryset().filter(uploader=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        model_qs = MLModel.objects.get(id=2)
+        context["model_qs"] = model_qs
+        return context
+
 
 class PublicMLModelListView(LoginRequiredMixin, ListView):
     model = MLModel

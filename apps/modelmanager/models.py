@@ -51,11 +51,11 @@ class MLModel(CreationModificationDateBase):
                                   help_text='Ml Model classes file. Allowed extensions are: .txt, .names, .yaml'
                                   )
     description = models.TextField(_("Model's description"))
-    model_version = models.CharField(_('Ml Model Version'),
-                                     max_length=51,
-                                     null=True,
-                                     blank=True,
-                                     )
+    version = models.CharField(_('Ml Model Version'),
+                               max_length=51,
+                               null=True,
+                               blank=True,
+                               )
 
     public = models.BooleanField(default=False)
 
@@ -96,15 +96,15 @@ class MLModel(CreationModificationDateBase):
     def cls_filetype(self):
         return os.path.splitext(self.class_file.name)[-1]
 
-    def get_classname(self):
-        if self.cls_filetype.lower() == 'yaml':
+    def get_classesname(self):
+        if self.cls_filetype.lower() == '.yaml':
             with open(self.cls_filepath, 'r') as yaml_cls_file:
                 classes = yaml.safe_load(yaml_cls_file)
-                print(classes)
-        elif self.cls_filetype.lower() == 'txt':
+                return classes.get('names')
+        elif self.cls_filetype.lower() == '.txt':
             with open(self.cls_filepath, 'r') as txt_cls_file:
                 classes = txt_cls_file.readlines()
-                print(classes)
+                return classes
 
     def get_absolute_url(self):
         return reverse("modelmanager:user_mlmodel_list_url")
