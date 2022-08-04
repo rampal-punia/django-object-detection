@@ -1,17 +1,21 @@
 {% load static %}
+{% if imageset %}
 <a type="button" class="btn btn-sm btn-outline-info mb-2" href="{% url 'images:upload_images_url' imageset.id %}">Upload More images</a>
+{% endif %}
+{% if image %}
 <div class="card">
     <div class="card-body">
-    <div class="row">
-        {% for image in images %}
-        {% with image.get_imageurl as imgurl %}
-            <div class="col-md">
-                <a href="{% url 'images:detect_object_url' image.image_set.id image.id %}">
-                    <img src="{{ imgurl }}" alt="" class="mb-2 mr-1" width="90px" height="90px" />
-                </a>
-            </div>
-        {% endwith %}
-        {% endfor %}
+        <div class="row">
+            {% for image in images %}
+            {% with image.get_imageurl as imgurl %}
+                <div class="col-md">
+                    <a href="{% url 'images:detect_object_url' image.image_set.id image.id %}">
+                        <img src="{{ imgurl }}" alt="" class="mb-2 mr-1" width="90px" height="90px" />
+                    </a>
+                </div>
+            {% endwith %}
+            {% endfor %}
+        </div>
     </div>
 </div>
-</div>
+{% endif %}

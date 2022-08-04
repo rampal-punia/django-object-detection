@@ -4,10 +4,6 @@
     Home Page
 {% endblock title %}
 
-{% block leftbar %}
-
-{% endblock leftbar %}
-
 {% block content %}
 <div class="col-md-8 mt-2 mx-4">
     <div class="card">
@@ -18,6 +14,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Upload Multiple Images
                 <a href="{% url 'images:imageset_create_url' %}" class="btn btn-sm btn-outline-success" type="button">Upload images</a>
+                {% if user_imagesets %}
+                <a href="{% url 'images:imageset_list_url' %}" class="btn btn-sm btn-outline-success" type="button">ImageSets</a>
+                {% endif %}
             </li>
             <li class="list-group-item">Default Machine Learning Model is YoloV5m</li>
             <li class="list-group-item">Upload a custom pre-trained model
