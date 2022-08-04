@@ -3,11 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 project_utils
-*/*.pt
+*.pt
 
 
 # images
-*/*.jpg
+*.jpg
 # */*.png 
 
 # media folder
