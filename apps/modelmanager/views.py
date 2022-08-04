@@ -60,10 +60,10 @@ class MLModelUpdateView(LoginRequiredMixin, CreateView):
 class UserMLModelListView(LoginRequiredMixin, ListView):
     model = MLModel
     context_object_name = 'user_models'
-    template_name: str = 'modelmanager/usermlmodel_list.html'
+    template_name: str = 'modelmanager/mlmodel_list.html'
 
     def get_queryset(self):
-        return super().get_queryset().filter(uploader=self.request.user)
+        return super().get_queryset().filter(uploader=self.request.user).order_by('-created')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,7 +75,7 @@ class UserMLModelListView(LoginRequiredMixin, ListView):
 class PublicMLModelListView(LoginRequiredMixin, ListView):
     model = MLModel
     context_object_name = 'public_models'
-    template_name: str = 'modelmanager/usermlmodel_list.html'
+    template_name: str = 'modelmanager/mlmodel_list.html'
 
     def get_queryset(self):
-        return super().get_queryset().filter(public=True)
+        return super().get_queryset().filter(public=True).order_by('-created')

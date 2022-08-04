@@ -7,18 +7,20 @@ Imagesets
 
 
 {% block content %}
-    <div class="col-md-9">
-
+    <div class="row">
+        <div class="d-flex justify-content-center mb-2">
+            <a class="btn btn-sm btn-outline-success mx-1" type="button" href="{% url 'images:imageset_create_url' %}">Create imageset</a>
+        </div>
         <div class="d-flex align-items-start">
-            <div style="width:40%" class="nav flex-column nav-pills me-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <div style="width:20%" class="nav flex-column nav-pills me-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <button class="nav-link active" id="v-pills-public-tab" data-bs-toggle="pill" data-bs-target="#v-pills-public" type="button" role="tab" aria-controls="v-pills-public" aria-selected="true">Public image sets</button>
                 <button class="nav-link" id="v-pills-user-tab" data-bs-toggle="pill" data-bs-target="#v-pills-user" type="button" role="tab" aria-controls="v-pills-user" aria-selected="false">My image sets</button>
-                <button class="nav-link" id="v-pills-latest-tab" data-bs-toggle="pill" data-bs-target="#v-pills-latest" type="button" role="tab" aria-controls="v-pills-latest" aria-selected="false">Latest 5</button>
-                <button class="nav-link" id="v-pills-oldest-tab" data-bs-toggle="pill" data-bs-target="#v-pills-oldest" type="button" role="tab" aria-controls="v-pills-oldest" aria-selected="false">Oldest 5</button>
+                {% comment %} <button class="nav-link" id="v-pills-latest-tab" data-bs-toggle="pill" data-bs-target="#v-pills-latest" type="button" role="tab" aria-controls="v-pills-latest" aria-selected="false">Latest 5</button>
+                <button class="nav-link" id="v-pills-oldest-tab" data-bs-toggle="pill" data-bs-target="#v-pills-oldest" type="button" role="tab" aria-controls="v-pills-oldest" aria-selected="false">Oldest 5</button> {% endcomment %}
             </div>
             <div class="tab-content" id="v-pills-tabContent" style="width:80%">
                 <div class="tab-pane fade show active" id="v-pills-public" role="tabpanel" aria-labelledby="v-pills-public-tab" tabindex="0">
-                    {% for imgset in imagesets %}
+                    {% for imgset in public_imagesets %}
                         <div class="card mb-3">
                             <div class="card-header">
                                 {{ imgset }}
@@ -31,6 +33,12 @@ Imagesets
                                     <li class="list-group-item"><b>Created on</b>: {{ imgset.created }}</li>
                                     <li class="list-group-item"><b>Updated on</b>: {{ imgset.modified }}</li>
                                 </ul>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="card">
+                            <div class="card-body">
+                                Nil Imageset Created Yet!
                             </div>
                         </div>
                     {% endfor %}
@@ -51,9 +59,15 @@ Imagesets
                                 </ul>
                             </div>
                         </div>
+                    {% empty %}
+                        <div class="card">
+                            <div class="card-body">
+                                Nil Imageset Created Yet!
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
-                <div class="tab-pane fade" id="v-pills-latest" role="tabpanel" aria-labelledby="v-pills-latest-tab" tabindex="0">
+                {% comment %} <div class="tab-pane fade" id="v-pills-latest" role="tabpanel" aria-labelledby="v-pills-latest-tab" tabindex="0">
                     {% for imgset in latest_5_imagesets %}
                         <div class="card mb-3">
                             <div class="card-header">
@@ -88,7 +102,7 @@ Imagesets
                             </div>
                         </div>
                     {% endfor %}
-                </div>
+                </div> {% endcomment %}
             </div>
         </div>
 

@@ -20,20 +20,19 @@ class ImageSetCreateView(LoginRequiredMixin, CreateView):
 class ImageSetListView(LoginRequiredMixin, ListView):
     model = ImageSet
     context_object_name = 'imagesets'
+    paginate_by: int = 10
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        public_imagesets = ImageSet.objects.filter(public=True)
-        user_imagesets = ImageSet.objects.filter(user=self.request.user)
-        latest_5_imagesets = ImageSet.objects.order_by('-created')
-        oldest_5_imagesets = ImageSet.objects.order_by('created')
+        public_imagesets = ImageSet.objects.filter(
+            public=True).order_by('-created')
+        user_imagesets = ImageSet.objects.filter(
+            user=self.request.user).order_by('-created')
         context["public_imagesets"] = public_imagesets
         context["user_imagesets"] = user_imagesets
-        context["latest_5_imagesets"] = latest_5_imagesets
-        context["oldest_5_imagesets"] = oldest_5_imagesets
         return context
 
 

@@ -4,6 +4,7 @@
     Home Page
 {% endblock title %}
 
+
 {% block content %}
 <div class="col-md-8 mt-2 mx-4">
     <div class="card">
@@ -20,10 +21,10 @@
             </li>
             <li class="list-group-item">Default Machine Learning Model is YoloV5m</li>
             <li class="list-group-item">Upload a custom pre-trained model
-                <a href="#" class="btn btn-sm btn-outline-success" type="button">Upload Model</a>
+                <a href="{% url 'modelmanager:mlmodel_upload_url' %}" class="btn btn-sm btn-outline-success" type="button">Upload Model</a>
+                <a href="{% url 'modelmanager:public_mlmodel_list_url' %}" class="btn btn-sm btn-outline-success" type="button">Ml Models</a>
             </li>
             <li class="list-group-item">Detect object on an image with default/pre-trained model
-                <a href="{% url 'modelmanager:mlmodel_upload_url' %}" class="btn btn-sm btn-outline-success" type="button">Object Detection</a>
             </li>
         </ul>
     </div>
