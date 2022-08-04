@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+
+{% block title %}
+User Model 
+{% endblock title %}
+
+{% block leftbar %}
+<div class="col-md-3">
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+    <div class="col-md-8 mt-3">
+        {% for model in user_models %}
+            {{model.name}}
+        {% endfor %}
+    </div>
+{% endblock content %}

@@ -6,7 +6,7 @@
         {% for image in images %}
         {% with image.get_imageurl as imgurl %}
             <div class="col-md">
-                <a href="{{ imgurl }}" data-toggle="lightbox" data-gallery="image-gallery">
+                <a href="{% url 'images:detect_object_url' image.image_set.id image.id %}">
                     <img src="{{ imgurl }}" alt="" class="mb-2 mr-1" width="90px" height="90px" />
                 </a>
             </div>

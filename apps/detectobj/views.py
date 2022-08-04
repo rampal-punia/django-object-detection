@@ -25,8 +25,8 @@ class DetectionImageDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         img_qs = self.get_object()
-        ds = img_qs.ds
-        images_qs = ds.images.all()
+        imgset = img_qs.image_set
+        images_qs = imgset.images.all()
         paginator = Paginator(images_qs, 50)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -52,7 +52,7 @@ class DetectionImageDetailView(LoginRequiredMixin, DetailView):
             id=selected_detection_model_id)
         selected_detection_model_name = selected_detection_model.name
         base_dir = settings.BASE_DIR
-        yolo_folder = os.path.join(base_dir, "obj_detection")
+        yolo_folder = os.path.join(base_dir, "yolov5")
         # torch.cuda.empty_cache()
         model = torch.hub.load(
             yolo_folder,
@@ -82,8 +82,9 @@ class DetectionImageDetailView(LoginRequiredMixin, DetailView):
                 img_base64.save(
                     f"{inferrenced_img_dir}/{img_qs}.jpg", format="JPEG")
         torch.cuda.empty_cache()
-        ds = img_qs.ds
-        images_qs = ds.images.all()
+        # Ready for rendering next image on same html page.
+        imagset = img_qs.image_set
+        images_qs = imagset.images.all()
         paginator = Paginator(images_qs, 50)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)

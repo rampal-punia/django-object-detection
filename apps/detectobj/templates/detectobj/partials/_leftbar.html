@@ -2,7 +2,7 @@
 
 <div class="card my-2">
     <h5 class="pt-2 px-2">
-        <span class="">Dataset: {{ img_qs.ds.ds_name|capfirst }}</span>
+        <span class="">Imageset: {{ img_qs.image_set.name|capfirst }}</span>
     </h5>
     <hr>
     <div class="card-body">
@@ -11,7 +11,7 @@
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
                         <a href="{% url 'detectobj:detection_image_detail_url' img.id %}?page={{ num }}">
-                            <img src="{{ img.url }}" class="{% if img.id == image_file.id %}
+                            <img src="{{ img.get_imageurl }}" class="{% if img.id == image_file.id %}
                             border border-4 border-info rounded {% endif %} 
                             {% if img.image_bbox in total_annotated_imgs %} border border-2 border-success {% endif %}
                             image-fluid ml-1 mb-1" width=60 height=auto />
@@ -20,7 +20,7 @@
                 {% endfor %}
             {% else %}
                 <a href="{% url 'detectobj:detection_image_detail_url' img.id %}">
-                <img src="{{ img.url }}" class="{% if img.id == image_file.id %}
+                <img src="{{ img.get_imageurl }}" class="{% if img.id == image_file.id %}
                 border border-4 border-info rounded {% endif %} 
                 {% if img.image_bbox in total_annotated_imgs %} border border-2 border-success {% endif %}
                 image-fluid ml-1 mb-1" width=90 height=auto/>
@@ -29,6 +29,6 @@
         {% endfor %}
     </div>
 </div>    
-{% include 'partials/_paginator_custom.html' %}
+{% include 'partials/_paginator.html' %}
 
 

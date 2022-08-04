@@ -1,9 +1,12 @@
 import os
+import yaml
 
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import FileExtensionValidator
+from django.urls import reverse
+
 from config.models import CreationModificationDateBase
 
 
@@ -34,13 +37,18 @@ class MLModel(CreationModificationDateBase):
                                 )],
                                 help_text='Allowed extensions are: .pt, .pth'
                                 )
+    class_filename = models.CharField(_('Class FileName'),
+                                      max_length=100,
+                                      null=True,
+                                      help_text='Name for the class file'
+                                      )
     class_file = models.FileField(_('Ml Model Classes file'),
                                   upload_to=model_classfile_upload_path,
                                   validators=[FileExtensionValidator(
                                       allowed_extensions=[
-                                          'txt', 'TXT', 'names', 'names']
+                                          'txt', 'TXT', 'names', 'names', 'yaml', 'YAML']
                                   )],
-                                  help_text='Ml Model classes file. Allowed extensions are: .txt, .names'
+                                  help_text='Ml Model classes file. Allowed extensions are: .txt, .names, .yaml'
                                   )
     description = models.TextField(_("Model's description"))
     model_version = models.CharField(_('Ml Model Version'),
@@ -49,8 +57,16 @@ class MLModel(CreationModificationDateBase):
                                      blank=True,
                                      )
 
+    public = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(
+            fields=('name', 'uploader'),
+            name='unique_model_by_user'
+        )]
+
     def __str__(self):
-        return f"{self.name}-{self.uploader}"
+        return f"{self.pth_filename}-{self.uploader}"
 
     @property
     def pth_filepath(self):
@@ -76,7 +92,19 @@ class MLModel(CreationModificationDateBase):
     def cls_filename(self):
         return os.path.splitext(self.class_file.name)[0]
 
+    @property
+    def cls_filetype(self):
+        return os.path.splitext(self.class_file.name)[-1]
+
     def get_classname(self):
-        with open(self.cls_filepath, 'r') as cls_file:
-            classes = cls_file.readlines()
-            print(classes)
+        if self.cls_filetype.lower() == 'yaml':
+            with open(self.cls_filepath, 'r') as yaml_cls_file:
+                classes = yaml.safe_load(yaml_cls_file)
+                print(classes)
+        elif self.cls_filetype.lower() == 'txt':
+            with open(self.cls_filepath, 'r') as txt_cls_file:
+                classes = txt_cls_file.readlines()
+                print(classes)
+
+    def get_absolute_url(self):
+        return reverse("modelmanager:user_mlmodel_list_url")

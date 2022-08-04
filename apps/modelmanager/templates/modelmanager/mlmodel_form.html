@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+
+{% block title %}
+Upload ML Model
+{% endblock title %}
+
+{% block leftbar %}
+<div class="col-md-3">
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+    <div class="col-md-8 mt-3">
+        <legend class="border-bottom">Upload Pre-trained Model</legend>
+        <form action="" method="post" enctype="multipart/form-data" >
+            {% csrf_token %}
+            <div class="">
+                {{form|crispy}}
+            </div>
+            <button id="modelUploadBtn" type="submit" class="btn btn-sm btn-outline-success mt-2">Submit</button>
+        </form>
+    </div>
+{% endblock content %}

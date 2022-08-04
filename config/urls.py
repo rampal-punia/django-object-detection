@@ -27,7 +27,7 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')),
 
     path('detectobj/', include("detectobj.urls", namespace="detectobj")),
-    # path('modelmanager/', include("multipleimages.urls", namespace="multipleimages")),
+    path('modelmanager/', include("modelmanager.urls", namespace="modelmanager")),
     # path('croppedimages/', include("croppedimages.urls", namespace="croppedimages")),
     path('images/', include("images.urls", namespace="images")),
 

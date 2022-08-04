@@ -25,8 +25,8 @@
                 <div class="row">
                     <div class="col-sm-4 px-3">
                         <h3 class="cart-title">Selected Image</h3>
-                        <a href="{{ img_qs.url }}" data-toggle="lightbox" data-gallery="image-gallery">
-                            <img src="{{ img_qs.url }}" class="border border-2 border-primary rounded mb-4" width="150" height="auto" />
+                        <a href="{{ img_qs.get_imageurl }}" data-toggle="lightbox" data-gallery="image-gallery">
+                            <img src="{{ img_qs.get_imageurl }}" class="border border-2 border-primary rounded mb-4" width="250" height="auto" />
                         </a> 
                     </div>
                     <div class="col-sm-4">

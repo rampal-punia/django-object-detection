@@ -17,8 +17,8 @@
             <a href="{% url 'images:image_delete_url' image.image_set.id image.id %}" class="btn btn-sm btn-outline-success mx-1 my-1">
                 <img src="{% static 'img/cross.png' %}" alt="" />
             </a>
-            <a href="{% url 'images:image_delete_url' image.image_set.id image.id %}" class="btn btn-sm btn-outline-success mx-1 my-1">
-                Detect Object
+            <a href="{% url 'detectobj:detection_image_detail_url' image.id %}" class="btn btn-sm btn-outline-success mx-1 my-1">
+                Detect Objects
             </a>
         </div>
         {% endwith %}

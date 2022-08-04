@@ -79,22 +79,6 @@ class ImagesListView(LoginRequiredMixin, ListView):
         return context
 
 
-class DetectObjectView(LoginRequiredMixin, DetailView):
-    model = ImageFile
-    context_object_name = 'image_qs'
-    template_name: str = 'images/detect_object.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        image = self.get_object()
-        imageset = get_object_or_404(ImageSet, id=self.kwargs.get('imgset_pk'))
-        images = imageset.images.all()
-        context["image"] = image
-        context["imageset"] = imageset
-        context["images"] = images
-        return context
-
-
 class ImagesDeleteUrl(LoginRequiredMixin, DeleteView):
     model = ImageFile
 
