@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block on_page_css %}
+  <link href="{% static 'css/ekko-lightbox.css' %}" rel="stylesheet">
+{% endblock on_page_css %}
+
+{% block title %}
+    Select Detection Image
+{% endblock title %}
+
+{% block leftbar %}
+    <div class="col-sm-3">
+        {% include 'detectobj/partials/_leftbar.html' %}
+    </div>
+{% endblock leftbar %}
+
+
+{% block content %}
+    <div class='col-sm-9 my-2' id='main-div'>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4 px-3">
+                        <h3 class="cart-title">Selected Image</h3>
+                        <a href="{{ img_qs.url }}" data-toggle="lightbox" data-gallery="image-gallery">
+                            <img src="{{ img_qs.url }}" class="border border-2 border-primary rounded mb-4" width="150" height="auto" />
+                        </a> 
+                    </div>
+                    <div class="col-sm-4">
+                    <form class="mt-4 mb-3" action="" method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            {{ form2 | crispy }}
+                            <button type="submit" class="btn btn-outline-info btn-sm">Start detection</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {% if request.method == "POST" %}
+                            {% if inferrenced_img_dir %}
+                            <h3 class="cart-title">Inferrenced Image 
+                                <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                    Show Results
+                                </button>
+                            </h3>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                {% if results_list|length > 0 %}
+                                <h5 class="cart-title text-muted">Objects detected : 
+                                <span class="text-success">{{ results_list|length }}</span></h5>
+                                <hr>
+                                <h5 class="cart-title text-muted">Objects Occurrances {{ results_counter }}</h5> 
+                                <hr>
+                                    {% for result in results_list %}
+                                        {% for k, v in result.items %}
+                                            {{ k }} : {{ v }}<br>
+                                        {% endfor %}
+                                        <hr>
+                                    {% endfor %}
+                                {% else %}
+                                        Model Unable to predict. Try another model.
+                                {% endif %}
+                                </div>
+                            </div>
+                            
+                                <img src="{{inferrenced_img_dir}}" alt="" class="img-fluid px-4 py-4"  width="120%" height="auto"/>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+{% endblock content %}
+
+{% block on_page_script %}
+<script src="{% static 'js/ekko-lightbox.js' %}"></script>
+{% endblock on_page_script %}
+
+

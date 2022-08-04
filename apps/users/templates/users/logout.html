@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+Log Out
+{% endblock title %}
+
+{% block leftbar %}
+<div class="col-sm-3">
+    
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+<div class="col-sm-8">
+    <h2>You have been logged out</h2>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            <a href="{% url 'users:login' %}" class="btn btn-outline-info" role="button">Log In Again</a>
+        </small>
+    </div>
+</div>
+{% endblock content %}

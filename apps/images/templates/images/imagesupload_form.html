@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+
+{% block on_page_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/basic.min.css' %}" > 
+  <link rel="stylesheet" type="text/css" href="{% static 'css/dropzone.min.css' %}" />
+{% endblock on_page_css %}
+
+{% block title %}
+{{imageset.name|capfirst}} - Images upload
+{% endblock title %}
+
+{% block leftbar %}
+<div class="col-md-3">
+    {% include 'partials/_leftbar.html' %}
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+    <div class="col-md-6 offset-1">
+        <h4 class="mb-4">Upload images to {{ imageset.name|capfirst }} image set.</h4>
+        <form action="{% url 'dropzoneimages:upload_images_url' imageset.id %}" method="post" enctype="multipart/form-data" class="dropzone dz" id="DzImageImport" >
+            {% csrf_token %}
+            <div class="dz-default dz-message upload_client">
+                Drag & Drop Image files here or <strong>click here</strong> to upload.
+            </div>
+        </form>
+        <button id="imagesUploadBtn" type="submit" class="btn btn-sm btn-outline-info mt-2">Submit</button>
+    </div>
+{% endblock content %}
+
+{% block on_page_js %}
+<script src="{% static 'js/dropzone.min.js' %}"></script>
+
+<script>
+    {% include 'dropzoneimages/partials/_dzconfig.html' %}
+</script>
+
+{% endblock on_page_js %}

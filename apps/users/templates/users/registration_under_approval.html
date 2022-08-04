@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block on_page_css %}
+{% endblock on_page_css %}
+
+{% block title %}
+Registration Under Approval
+{% endblock title %}
+
+{% block leftbar %}
+<div class='col-sm-3'>
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+<div class='col-sm-9 mt-2' id='main-div'>
+    <div class="alert alert-primary" role="alert">
+        Dear User {{ self.request.user }}! Your registration is under approval.
+    </div>
+</div>
+{% endblock content %}
+
+{% block model %}
+{% endblock model %}
+
+{% block on_page_script %}
+{% endblock on_page_script %}

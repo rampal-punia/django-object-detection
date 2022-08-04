@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ imageset.name }} - ImageSet
+{% endblock title %}
+
+{% block leftbar %}
+<div class="col-md-3">
+    {% include 'partials/_leftbar.html' %}
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+<div class="col-md-8 mt-2">
+    <div class="card">
+    <div class="card-header">
+        {{ imageset.name|capfirst }} - Image set
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Description</h5>
+        <p class="card-text">{{imageset.description}}</p>
+        <a href="{% url 'dropzoneimages:upload_images_url' imageset.id %}" class="btn btn-primary">Upload images</a>
+    </div>
+    </div>    
+</div>
+{% endblock content %}
+
+{% block shared_data %}
+    {{ orig_image.id|json_script:"imageId" }}
+{% endblock shared_data %}
+

@@ -1,0 +1,79 @@
+let postUrl = $("#DzImageImport").attr("action")
+
+let csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+Dropzone.options.DzImageImport = false
+
+let imageDropZone = Dropzone.options.DzImageImport = {
+    url: postUrl,
+    autoProcessQueue: false, //stops from uploading files until user submits form
+    method: "post",
+    paramName: "file", // The name that will be used to transfer the file
+    clickable: true, // This allows the dropzone to select images onclick
+    acceptedFiles: '.jpg, .jpeg, .JPEG, .JPG, .png, .PNG, .tiff, .TIFF,', //accepted file types
+    parallelUploads: 80,
+    maxFilesize: null, // Maximum size of file that you will allow (MB)
+    maxFiles: 80, //Maximum number of files/images in dropzone
+    uploadMultiple: true,
+    createImageThumbnail: true,
+    maxThumbnailFilesize: 10,
+    timeout: 3000,
+    thumbnailWidth: 50,
+    thumbnailHeight: 50,
+    // previewsContainer: "#preview",
+    addRemoveLinks: true,
+    dictRemoveFile: "Remove",
+    dictCancelUpload: "Cancel upload",
+    dictUploadCancelled: "Upload cancelled",
+
+
+    init: function () {
+        dzClosure = this
+        $("#imagesUploadBtn").click(function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            // dzClosure.processQueue()
+            if (dzClosure.getQueuedFiles().length > 0) {
+                dzClosure.processQueue()
+                $.ajax({
+                    type: "post",
+                    url: postUrl,
+                    data: {
+                        csrfmiddlewaretoken: csrf,
+                        done: "done"
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        setTimeout(() => {
+                            // do something here...
+                            setTimeout(() => {
+                                // Auto replace the url
+                                window.location.replace(response["redirect_to"])
+                            }, 2000);
+                        }, 1000);
+                    }
+                });
+            } else {
+                console.log('ajax')
+                $.ajax({
+                    type: "post",
+                    url: postUrl,
+                    data: { csrfmiddlewaretoken: csrf, notdone: "not done" },
+                    dataType: "json",
+                    success: function (response) {
+                        // Do something here...
+                    }
+                });
+            }
+        });
+    },
+
+
+    accept: function (file, done) {
+        // Do something here...
+        done()
+    },
+    headers: {
+        'X-CSRFToken': csrf,
+    },
+};

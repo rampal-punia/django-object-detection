@@ -1,0 +1,26 @@
+$(`#btn${imageId}`).click(function (e) {
+    console.log("connected")
+
+    let csrf = $("input[name=csrfmiddlewaretoken]").val()
+    let detectImageData = {
+        slug: slug,
+        imageId: imageId,
+        csrfmiddlewaretoken: csrf,
+    }
+
+    $.ajax({
+        url: "{% url 'detectobj:object_detection_url' %}",
+        type: "POST",
+        data: detectImageData,
+        success: function (response) {
+            if (response['success'] === 'success') {
+                console.log("done")
+            } else {
+                console.log("else part")
+            }
+        }
+
+    })
+});
+
+

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home Page
+{% endblock title %}
+
+{% block leftbar %}
+<div class="col-md-3">
+    
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+<div class="col-md-7 mt-2 mx-4">
+    <div class="card">
+    <h4 class="card-header">Django Object Detection With YoloV5</h4>
+    <div class="card-body">
+        <h5 class="card-title">Features of the WebApp:</h5>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Upload Multiple Images
+                <a href="#" class="btn btn-sm btn-outline-success" type="button">Upload images</a>
+            </li>
+            <li class="list-group-item">Default Machine Learning Model is YoloV5m</li>
+            <li class="list-group-item">Upload a custom pre-trained model</li>
+            <li class="list-group-item">Detect object on an image with default/pre-trained model.</li>
+        </ul>
+    </div>
+    </div>
+</div>  
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Multiple images list
+{% endblock title %}
+
+{% block leftbar %}
+<div class="col-md-3">
+    {% include 'partials/_leftbar.html' %}
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+<div class="col-md-9 mt-2">
+    <a type="button" class="btn btn-sm btn-outline-info mb-2" href="{% url 'dropzoneimages:upload_images_url' imageset.id %}">Upload More images</a>
+    <div class="row">
+        {% for image in images %}
+        {% with image.get_imageurl as imgurl %}
+        <div class="col-sm-3">
+            <a href="{{ imgurl }}" data-toggle="lightbox" data-gallery="image-gallery">
+                <img src="{{ imgurl }}" alt="" class="img-fluid mx-1 my-1" width="250px" height="250px" />
+            </a>
+            <a href="{% url 'dropzoneimages:dz_image_delete_url' image.image_set.id image.id %}" class="btn btn-sm btn-outline-success mx-1 my-1">
+                <img src="{% static 'img/cross.png' %}" alt="" />
+            </a>
+        </div>
+        {% endwith %}
+        {% endfor %}
+    </div>
+    
+</div>
+{% endblock content %}

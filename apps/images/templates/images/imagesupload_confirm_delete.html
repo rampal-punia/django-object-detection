@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Confirm delete - Image in {{ object.image_set.name }}
+{% endblock title %}
+
+{% block leftbar %}
+<div class="col-md-3">
+    {% include 'partials/_leftbar.html' %}
+</div>
+{% endblock leftbar %}
+
+{% block content %}
+<div class="col-md-8 mt-2">
+    <form action="" method="post">
+    {% csrf_token %}
+      <div class="alert alert-danger" role="alert">
+      You are about to delete the Image {{ object.get_filename|capfirst }}.
+      </div>
+    <input type="submit" value="Confirm Delete" class="btn btn-outline-danger">
+  </form>
+</div>
+{% endblock content %}
