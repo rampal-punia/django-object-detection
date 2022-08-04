@@ -19,6 +19,9 @@ urlpatterns = [
     path('<int:pk>/images_list/', views.ImagesListView.as_view(),
          name='images_list_url'),
 
+    path('<int:imgset_pk>/<int:pk>/detectobject/', views.DetectObjectView.as_view(),
+         name='detect_object_url'),
+
     path('<int:imgset_pk>/delete_image/<int:pk>/', views.ImagesDeleteUrl.as_view(),
          name='image_delete_url'),
 ]

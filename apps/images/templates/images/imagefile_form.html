@@ -17,9 +17,9 @@
 {% endblock leftbar %}
 
 {% block content %}
-    <div class="col-md-6 offset-1">
+    <div class="col-md-6 offset-1 mt-3">
         <h4 class="mb-4">Upload images to {{ imageset.name|capfirst }} image set.</h4>
-        <form action="{% url 'dropzoneimages:upload_images_url' imageset.id %}" method="post" enctype="multipart/form-data" class="dropzone dz" id="DzImageImport" >
+        <form action="{% url 'images:upload_images_url' imageset.id %}" method="post" enctype="multipart/form-data" class="dropzone dz" id="DzImageImport" >
             {% csrf_token %}
             <div class="dz-default dz-message upload_client">
                 Drag & Drop Image files here or <strong>click here</strong> to upload.
@@ -33,7 +33,7 @@
 <script src="{% static 'js/dropzone.min.js' %}"></script>
 
 <script>
-    {% include 'dropzoneimages/partials/_dzconfig.html' %}
+    {% include 'images/partials/_dzconfig.html' %}
 </script>
 
 {% endblock on_page_js %}

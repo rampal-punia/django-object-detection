@@ -2,7 +2,7 @@
 {% load static crispy_forms_tags %}
 
 {% block title %}
-Create Dropzone Images set
+Create images set
 {% endblock title %}
 
 {% block leftbar %}
@@ -12,7 +12,7 @@ Create Dropzone Images set
 {% endblock leftbar %}
 
 {% block content %}
-    <div class="col-md-6 offset-1">
+    <div class="col-md-6 offset-1 mt-3">
         <h4 class="mb-4">Create Image Set for the uploading multiple images.</h4>
         <form action="" method="post" enctype="multipart/form-data" >
             {% csrf_token %}

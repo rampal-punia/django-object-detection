@@ -1,0 +1,17 @@
+{% load static %}
+<a type="button" class="btn btn-sm btn-outline-info mb-2" href="{% url 'images:upload_images_url' imageset.id %}">Upload More images</a>
+<div class="card">
+    <div class="card-body">
+    <div class="row">
+        {% for image in images %}
+        {% with image.get_imageurl as imgurl %}
+            <div class="col-md">
+                <a href="{{ imgurl }}" data-toggle="lightbox" data-gallery="image-gallery">
+                    <img src="{{ imgurl }}" alt="" class="mb-2 mr-1" width="90px" height="90px" />
+                </a>
+            </div>
+        {% endwith %}
+        {% endfor %}
+    </div>
+</div>
+</div>

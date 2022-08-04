@@ -37,7 +37,7 @@ class ImagesUploadView(LoginRequiredMixin, View):
         context = {
             'imageset': imageset,
         }
-        return render(request, 'dropzoneimages/imageFile_form.html', context)
+        return render(request, 'images/imagefile_form.html', context)
 
     def post(self, request, *args, **kwargs):
         imageset_id = self.kwargs.get("pk")
@@ -52,7 +52,7 @@ class ImagesUploadView(LoginRequiredMixin, View):
                 Automatic redirect to the images list after completion."
 
             redirect_to = reverse_lazy(
-                "dropzoneimages:images_list_url", args=[imageset.id])
+                "images:images_list_url", args=[imageset.id])
             return JsonResponse({"result": "result",
                                 "message": message,
                                  "redirect_to": redirect_to,
@@ -76,6 +76,22 @@ class ImagesListView(LoginRequiredMixin, ListView):
         imageset_id = self.kwargs.get('pk')
         imageset = get_object_or_404(ImageSet, id=imageset_id)
         context["imageset"] = imageset
+        return context
+
+
+class DetectObjectView(LoginRequiredMixin, DetailView):
+    model = ImageFile
+    context_object_name = 'image_qs'
+    template_name: str = 'images/detect_object.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        image = self.get_object()
+        imageset = get_object_or_404(ImageSet, id=self.kwargs.get('imgset_pk'))
+        images = imageset.images.all()
+        context["image"] = image
+        context["imageset"] = imageset
+        context["images"] = images
         return context
 
 

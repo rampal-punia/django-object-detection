@@ -1,1 +1,1 @@
-# Django object detection with yolov5.
+# Django object detection with yolov5
