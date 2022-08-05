@@ -3,7 +3,6 @@
 ## Demo of the WebApp
 <video src="https://github.com/CodingMantras/django-object-detection/blob/master/static/Django-Objdetection.m4v" controls="controls" style="max-width: 730px;">
 </video>
-![demo video](https://github.com/CodingMantras/django-object-detection/blob/master/static/Django-Objdetection.m4v)
 
 ## Features of the WebApp:
 - Create/Edit imagesets.
