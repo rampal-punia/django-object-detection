@@ -4,27 +4,27 @@
     Home Page
 {% endblock title %}
 
-
 {% block content %}
-<div class="col-md-8 mt-2 mx-4">
+<div class="col-md-12 mt-2">
     <div class="card">
     <h4 class="card-header">Django Object Detection With YoloV5</h4>
     <div class="card-body">
         <h5 class="card-title">Features of the WebApp:</h5>
 
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">Upload Multiple Images
-                <a href="{% url 'images:imageset_create_url' %}" class="btn btn-sm btn-outline-success" type="button">Upload images</a>
+            <li class="list-group-item">Create imagesets & upload multiple images: 
+                <a href="{% url 'images:imageset_create_url' %}" class="btn btn-sm btn-outline-success" type="button">Create Imageset</a>
                 {% if user_imagesets %}
-                <a href="{% url 'images:imageset_list_url' %}" class="btn btn-sm btn-outline-success" type="button">ImageSets</a>
+                <a href="{% url 'images:imageset_list_url' %}" class="btn btn-sm btn-outline-success" type="button">ImageSets List</a>
                 {% endif %}
             </li>
-            <li class="list-group-item">Default Machine Learning Model is YoloV5m</li>
-            <li class="list-group-item">Upload a custom pre-trained model
-                <a href="{% url 'modelmanager:mlmodel_upload_url' %}" class="btn btn-sm btn-outline-success" type="button">Upload Model</a>
-                <a href="{% url 'modelmanager:public_mlmodel_list_url' %}" class="btn btn-sm btn-outline-success" type="button">Ml Models</a>
+            <li class="list-group-item">Convert uploaded image size to 640 x 640. (For faster detection)</li>
+            <li class="list-group-item">Upload a custom pre-trained model: 
+                <a href="{% url 'modelmanager:mlmodel_upload_url' %}" class="btn btn-sm btn-outline-success" type="button">Upload Pre-trained Model</a>
+                <a href="{% url 'modelmanager:public_mlmodel_list_url' %}" class="btn btn-sm btn-outline-success" type="button">ML Models List</a>
             </li>
-            <li class="list-group-item">Detect object on an image with default/pre-trained model
+            <li class="list-group-item">You can upload any pre-trained model or a yolov5 model.</li>
+            <li class="list-group-item">Detect object on an image with default/pre-trained model.
             </li>
         </ul>
     </div>

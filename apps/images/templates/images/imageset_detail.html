@@ -5,21 +5,30 @@
 {% endblock title %}
 
 {% block leftbar %}
-<div class="col-md-3">
-    {% include 'partials/_leftbar.html' %}
-</div>
 {% endblock leftbar %}
 
 {% block content %}
-<div class="col-md-8 mt-2">
+<div class="col-md-10 mx-4">
     <div class="card">
     <div class="card-header">
         {{ imageset.name|capfirst }} - Image set
     </div>
     <div class="card-body">
-        <h5 class="card-title">Description</h5>
-        <p class="card-text">{{imageset.description}}</p>
-        <a href="{% url 'images:upload_images_url' imageset.id %}" class="btn btn-outline-info btn-sm">Upload images</a>
+       <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Uploaded by</b>: {{ imageset.user|capfirst }}</li>
+            <li class="list-group-item"><b>Total images</b>: {{ imageset.images.count }}</li>
+            <li class="list-group-item"><b>Description</b>: {{ imageset.description }}</li>
+            <li class="list-group-item"><b>Created on</b>: {{ imageset.created }}</li>
+            <li class="list-group-item"><b>Updated on</b>: {{ imageset.modified }}</li>
+        </ul>
+        {% if imageset.user == request.user %}
+            <a href="{% url 'images:upload_images_url' imageset.id %}" class="btn btn-outline-info btn-sm">Upload images</a>
+            {% if imageset.images.count > 0 %}
+                <a href="{% url 'images:images_list_url' imageset.id %}" class="btn btn-outline-info btn-sm">View Images</a>
+            {% endif %}
+        {% elif imageset.public %}
+            <a href="{% url 'images:images_list_url' imageset.id %}" class="btn btn-outline-info btn-sm">View Images</a>
+        {% endif %}
     </div>
     </div>    
 </div>

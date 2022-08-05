@@ -10,14 +10,9 @@
 {{imageset.name|capfirst}} - Images upload
 {% endblock title %}
 
-{% block leftbar %}
-<div class="col-md-3">
-    {% include 'partials/_leftbar.html' %}
-</div>
-{% endblock leftbar %}
 
 {% block content %}
-    <div class="col-md-6 offset-1 mt-3">
+    <div class="col-md-11 mx-4">
         <h4 class="mb-4">Upload images to {{ imageset.name|capfirst }} image set.</h4>
         <form action="{% url 'images:upload_images_url' imageset.id %}" method="post" enctype="multipart/form-data" class="dropzone dz" id="DzImageImport" >
             {% csrf_token %}

@@ -12,12 +12,11 @@ Create images set
 {% endblock leftbar %}
 
 {% block content %}
-    <div class="col-md-7 mt-3">
-        <h4 class="mb-4">Create Image Set for the uploading multiple images.</h4>
+    <div class="col-md-7">
+        <legend class="border-bottom">Create Image Set</legend>
         <form action="" method="post" enctype="multipart/form-data" >
             {% csrf_token %}
             {{ form|crispy }}
-
             <button type="submit" class="btn btn-sm btn-outline-info mt-2">Submit</button>
         </form>
     </div>

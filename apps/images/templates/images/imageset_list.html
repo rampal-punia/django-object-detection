@@ -37,8 +37,8 @@ Imagesets
                         </div>
                     {% empty %}
                         <div class="card">
-                            <div class="card-body">
-                                Nil Imageset Created Yet!
+                            <div class="card-header">
+                                No public imageset created Yet!
                             </div>
                         </div>
                     {% endfor %}
@@ -47,15 +47,12 @@ Imagesets
                     {% for imgset in user_imagesets %}
                         <div class="card mb-3">
                             <div class="card-header">
-                                {{ imgset }}
+                                <a href="{% url 'images:imageset_detail_url' imgset.id %}">{{ imgset }}</a>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item"><b>Uploaded by</b>: {{ imgset.user|capfirst }}</li>
                                     <li class="list-group-item"><b>Total images</b>: {{ imgset.images.count }}</li>
-                                    <li class="list-group-item"><b>Description</b>: {{ imgset.description }}</li>
-                                    <li class="list-group-item"><b>Created on</b>: {{ imgset.created }}</li>
-                                    <li class="list-group-item"><b>Updated on</b>: {{ imgset.modified }}</li>
                                 </ul>
                             </div>
                         </div>

@@ -66,7 +66,7 @@ class MLModel(CreationModificationDateBase):
         )]
 
     def __str__(self):
-        return f"{self.pth_filename}-{self.uploader}"
+        return f"{self.name}-{self.uploader}"
 
     @property
     def pth_filepath(self):
