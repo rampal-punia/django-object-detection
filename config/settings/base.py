@@ -175,6 +175,8 @@ YOLOV5_WEIGTHS_DIR = YOLOV5_ROOT / "weights"
 if not os.path.exists(YOLOV5_WEIGTHS_DIR):
     os.makedirs(YOLOV5_WEIGTHS_DIR, exist_ok=True)
 
+MODEL_CONFIDENCE = 0.45
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#default-auto-field
 

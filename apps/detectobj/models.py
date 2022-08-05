@@ -25,6 +25,7 @@ class InferrencedImage(CreationModificationDateBase):
                                      verbose_name="Custom ML Models",
                                      on_delete=models.DO_NOTHING,
                                      null=True,
+                                     blank=True,
                                      related_name="detectedimages",
                                      help_text="Machine Learning model for detection",
                                      )

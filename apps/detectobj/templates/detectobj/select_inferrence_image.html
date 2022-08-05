@@ -23,7 +23,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <h3 class="cart-title">Selected Image</h3>
                         <a href="{{ img_qs.get_imageurl }}" data-toggle="lightbox" data-gallery="image-gallery">
                             <img src="{{ img_qs.get_imageurl }}" class="border border-2 border-primary rounded mb-4" width="250" height="auto" />
@@ -33,13 +33,29 @@
 
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <form class="mt-2 mb-2" action="" method="POST">
-                            {% csrf_token %}
-                            {{ form|crispy }}
-                            {{ form2 | crispy }}
-                            <button type="submit" class="btn btn-outline-info btn-sm">Start detection</button>
-                        </form>
+                    <div class="col-sm-7">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <button class="nav-link active" id="nav-yolo-tab" data-bs-toggle="tab" data-bs-target="#nav-yolo" type="button" role="tab" aria-controls="nav-yolo" aria-selected="true">Yolo Model</button>
+                                <button class="nav-link" id="nav-custom-tab" data-bs-toggle="tab" data-bs-target="#nav-custom" type="button" role="tab" aria-controls="nav-custom" aria-selected="false">Custom Model</button>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-yolo" role="tabpanel" aria-labelledby="nav-yolo-tab" tabindex="0">
+                                <form class="mt-2 mb-2" action="" method="POST">
+                                    {% csrf_token %}
+                                    {{ form1|crispy }}
+                                    <button type="submit" class="btn btn-outline-info btn-sm">Start detection</button>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="nav-custom" role="tabpanel" aria-labelledby="nav-custom-tab" tabindex="0">
+                                <form class="mt-2 mb-2" action="" method="POST">
+                                    {% csrf_token %}
+                                    {{ form2|crispy }}
+                                    <button type="submit" class="btn btn-outline-info btn-sm">Start detection</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr>
