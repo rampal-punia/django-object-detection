@@ -1,7 +1,6 @@
 # Django Object Detection With YoloV5
 
 ## Demo of the WebApp
-/home/ram/django-object-detection/media/Django-Objdetection.m4v
 
 ## Features of the WebApp:
 - Create/Edit imagesets.
