@@ -16,3 +16,5 @@ https://user-images.githubusercontent.com/104087274/183131139-6a2c9b6d-2f0e-4f25
 - Yolov5 models will download upon selection. (Active internet connection required for this step.)
 
 - Detect object on an image with yolov5/custom pre-trained model.
+
+## How to use it
