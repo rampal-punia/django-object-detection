@@ -44,35 +44,27 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         img_bytes = img_qs.image.read()
         img = I.open(io.BytesIO(img_bytes))
         # Get form data
-        selected_custom_model_id = self.request.POST.get("custom_model")
         modelconf = self.request.POST.get("confidence")
         if modelconf:
             modelconf = float(modelconf)
         else:
             modelconf = 0.45
-        selected_yolo_model_id = self.request.POST.get("yolo_model")
-        selected_detection_model = MLModel.objects.get(
-            id=selected_custom_model_id)
-        selected_detection_model_name = selected_detection_model.name
-        base_dir = settings.BASE_DIR
-        yolo_folder = os.path.join(base_dir, "yolov5")
-        # torch.cuda.empty_cache()
-        model = torch.hub.load(
-            yolo_folder,  # path to hubconf file
-            'custom',
-            path=selected_detection_model.pth_filepath,  # Uploaded model path
-            source='local',
-            force_reload=True,
-        )
-        model.conf = modelconf
-        results = model(img, size=640)
+
+        custom_model_id = self.request.POST.get("custom_model")
+        yolo_model_id = self.request.POST.get("yolo_model")
+        if custom_model_id:
+            custom_model = self.custommodel_config(custom_model_id, modelconf)
+        elif yolo_model_id:
+            self.yolomodel_config(yolo_model_id, modelconf)
+
+        results = custom_model(img, size=640)
         results_list = results.pandas().xyxy[0].to_json(orient="records")
         results_list = literal_eval(results_list)
         classes_list = [item["name"] for item in results_list]
         results_counter = collections.Counter(classes_list)
         if results_list == []:
             messages.warning(
-                request, f'Model "{selected_detection_model_name}" unable to predict. Try with another model.')
+                request, f'Model "{custom_model.name}" unable to predict. Try with another model.')
         else:
             results.render()
             media_folder = settings.MEDIA_ROOT
@@ -103,3 +95,30 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         context["results_counter"] = results_counter
         context["form2"] = ModelConfidenceForm()
         return render(request, "detectobj/selected_image.html", context)
+
+    def custommodel_config(self, custom_model_id, modelconf):
+        detection_model = MLModel.objects.get(id=custom_model_id)
+        # torch.cuda.empty_cache()
+        print(settings.YOLOV5_ROOT)
+        custom_model = torch.hub.load(
+            settings.YOLOV5_ROOT,  # path to hubconf file
+            'custom',
+            path=detection_model.pth_filepath,  # Uploaded model path
+            source='local',
+            force_reload=True,
+        )
+        custom_model.conf = modelconf
+
+    def yolomodel_config(yolo_model_id, modelconf):
+        detection_model = MLModel.objects.get(id=yolo_model_id)
+        detection_model_name = detection_model.name
+        # torch.cuda.empty_cache()
+        model = torch.hub.load(
+            settings.YOLOV5_ROOT,  # path to hubconf file
+            'custom',
+            path=detection_model.pth_filepath,  # Uploaded model path
+            source='local',
+            force_reload=True,
+        )
+        model.conf = modelconf
+        pass

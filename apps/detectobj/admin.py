@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import ImageDetection
+from .models import InferrencedImage
 
 
-@admin.register(ImageDetection)
-class ImageDetectionAdmin(admin.ModelAdmin):
-    list_display = ["image", "description", "custommodel"]
+@admin.register(InferrencedImage)
+class InferrencedImageAdmin(admin.ModelAdmin):
+    list_display = ["orig_image", "inf_image", "model_conf", "custom_model"]

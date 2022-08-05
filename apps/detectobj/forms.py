@@ -1,11 +1,17 @@
 from django import forms
-from .models import ImageDetection
+from .models import InferrencedImage
 
 
-class ImageDetectionForm(forms.ModelForm):
+class InferrencedImageForm(forms.ModelForm):
     class Meta:
-        model = ImageDetection
-        fields = ('custommodel',)
+        model = InferrencedImage
+        fields = ('custom_model',)
+
+
+class YoloModelForm(forms.ModelForm):
+    class Meta:
+        model = InferrencedImage
+        fields = ('yolo_model',)
 
 
 class ModelConfidenceForm(forms.Form):
