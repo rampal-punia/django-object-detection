@@ -13,15 +13,15 @@ https://user-images.githubusercontent.com/104087274/183131139-6a2c9b6d-2f0e-4f25
 - Yolov5 models will download upon selection. (Active internet connection required for this step.)
 - Detect object on an image with yolov5/custom pre-trained model.
 
-## Steps to use locally.
-
-- clone the repo locally.
-- create virtual env.
-
 ### Note
 a default.png in media is required for user-profile. Create media folder and add a  'default.png' file here.
 
+## Steps to use locally.
 ```bash
+clone the repo locally
+
+create virtual env
+
 # install dependencies
 pip install -r requirements.txt
 
