@@ -1,7 +1,8 @@
 # Django Object Detection With YoloV5
 
 ## Demo of the WebApp
-
+<video src="static/Django-Objdetection.m4v" controls="controls" style="max-width: 730px;">
+</video>
 
 ## Features of the WebApp:
 - Create/Edit imagesets.
