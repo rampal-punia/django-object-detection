@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 project_utils
 *.pt
-
+!media/default.png
 
 # images
 *.jpg
