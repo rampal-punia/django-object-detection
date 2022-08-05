@@ -1,31 +1,52 @@
-import cv2
-
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DetailView, DeleteView
+from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 from django.views.generic import View
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import ImageSet, ImageFile, imageset_upload_images_path
+from .models import ImageSet, ImageFile
 
 
 class ImageSetCreateView(LoginRequiredMixin, CreateView):
     model = ImageSet
-    fields = ['name', 'description']
+    fields = ['name', 'description', 'public']
 
     def form_valid(self, form):
         if not ImageSet.objects.filter(name=form.instance.name).exists():
             form.instance.user = self.request.user
             form.instance.dirpath = form.instance.get_dirpath()
-            print("form.instance.dirpath: ", form.instance.dirpath)
             return super().form_valid(form)
         else:
             form.add_error(
                 'name',
-                f"Imageset with name {form.cleaned_data['name']} already exists in dataset. Add more images to that imageset, if required."
+                f"Imageset with name {form.cleaned_data['name']} already exists in dataset. \
+                     Add more images to that imageset, if required."
             )
-            return render(self.request, 'images/imageset_form.html', {'form': form})
+            return HttpResponseRedirect(reverse('images:imageset_create_url'))
+
+
+class ImageSetUpdateView(LoginRequiredMixin, UpdateView):
+    model = ImageSet
+    fields = ['name', 'description', 'public']
+
+    def form_valid(self, form):
+        if not ImageSet.objects.filter(name=form.instance.name).exists():
+            return super().form_valid(form)
+        else:
+            print("entered in else")
+            form.add_error(
+                'name',
+                f"Imageset with name {form.cleaned_data['name']} already exists in dataset. \
+                     Add more images to that imageset, if required."
+            )
+            context = {
+                'form': form
+            }
+            return render(self.request, 'images/imageset_form.html', context)
+
+    def get_success_url(self):
+        return reverse('images:imageset_detail_url', kwargs={'pk': self.object.id})
 
 
 class ImageSetListView(LoginRequiredMixin, ListView):

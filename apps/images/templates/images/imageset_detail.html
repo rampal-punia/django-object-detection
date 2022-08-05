@@ -4,9 +4,6 @@
     {{ imageset.name }} - ImageSet
 {% endblock title %}
 
-{% block leftbar %}
-{% endblock leftbar %}
-
 {% block content %}
 <div class="col-md-10 mx-4">
     <div class="card">
@@ -23,10 +20,11 @@
         </ul>
         {% if imageset.user == request.user %}
             <a href="{% url 'images:upload_images_url' imageset.id %}" class="btn btn-outline-info btn-sm">Upload images</a>
+            <a href="{% url 'images:imageset_update_url' imageset.id %}" class="btn btn-outline-info btn-sm">Update ImageSet</a>
             {% if imageset.images.count > 0 %}
                 <a href="{% url 'images:images_list_url' imageset.id %}" class="btn btn-outline-info btn-sm">View Images</a>
             {% endif %}
-        {% elif imageset.public %}
+        {% elif imageset.public and imageset.images.count > 0 %}
             <a href="{% url 'images:images_list_url' imageset.id %}" class="btn btn-outline-info btn-sm">View Images</a>
         {% endif %}
     </div>

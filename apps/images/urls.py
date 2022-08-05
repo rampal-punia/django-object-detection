@@ -7,6 +7,9 @@ urlpatterns = [
     path('create_image_set/', views.ImageSetCreateView.as_view(),
          name='imageset_create_url'),
 
+    path('<int:pk>/update_image_set/', views.ImageSetUpdateView.as_view(),
+         name='imageset_update_url'),
+
     path('image_set_list/', views.ImageSetListView.as_view(),
          name='imageset_list_url'),
 

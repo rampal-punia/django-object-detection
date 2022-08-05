@@ -6,14 +6,27 @@ User Model
 {% endblock title %}
 
 {% block leftbar %}
-<div class="col-md-2">
-    <a href="{% url 'modelmanager:public_mlmodel_list_url' %}">Public ML Models</a><br>
-    <a href="{% url 'modelmanager:user_mlmodel_list_url' %}">My ML Models</a>
+<div class="col-md-3">
+    <ul class="list-group list-group-flush">
+        {% if 'public' in request.path %}
+            <li class="list-group-item active"> Public ML Models</li>
+            <li class="list-group-item">
+                <a href="{% url 'modelmanager:user_mlmodel_list_url' %}">My ML Models</a>
+            </li>
+        {% elif 'user' in request.path %}
+            <li class="list-group-item">
+                <a href="{% url 'modelmanager:public_mlmodel_list_url' %}">Public ML Models</a>
+            </li>
+            <li class="list-group-item active">My ML Models</li>
+        {% endif %}
+    </ul>
+    <br>
+    
 </div>
 {% endblock leftbar %}
 
 {% block content %}
-    <div class="col-md-10">
+    <div class="col-md-9">
         {% if user_models %}
             {% for model in user_models %}
                 <div class="card mb-3">
@@ -32,7 +45,7 @@ User Model
                 </div>
             {% endfor %}
             
-            {% elif public_models %}
+        {% elif public_models %}
                 {% for model in public_models %}
                     <div class="card mb-3">
                         <div class="card-header">
@@ -49,6 +62,8 @@ User Model
                         </div>
                     </div>
                 {% endfor %}
-            {% endif %}
+        {% else %}
+        No Model uploaded yet.
+        {% endif %}
     </div>
 {% endblock content %}

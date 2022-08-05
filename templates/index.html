@@ -15,7 +15,10 @@
             <li class="list-group-item">Create imagesets & upload multiple images: 
                 <a href="{% url 'images:imageset_create_url' %}" class="btn btn-sm btn-outline-success" type="button">Create Imageset</a>
                 {% if user_imagesets %}
-                <a href="{% url 'images:imageset_list_url' %}" class="btn btn-sm btn-outline-success" type="button">ImageSets List</a>
+                <a href="{% url 'images:imageset_list_url' %}" class="btn btn-sm btn-outline-success" type="button">My ImageSets List</a>
+                {% endif %}
+                {% if public_imagesets %}
+                <a href="{% url 'images:imageset_list_url' %}" class="btn btn-sm btn-outline-success" type="button">Public ImageSets List</a>
                 {% endif %}
             </li>
             <li class="list-group-item">Convert uploaded image size to 640 x 640. (For faster detection)</li>

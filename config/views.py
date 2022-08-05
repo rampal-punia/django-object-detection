@@ -11,5 +11,7 @@ class HomeTemplateView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         user_imagesets = ImageSet.objects.filter(user=user)
+        public_imagesets = ImageSet.objects.filter(public=True)
         context["user_imagesets"] = user_imagesets
+        context["public_imagesets"] = public_imagesets
         return context
