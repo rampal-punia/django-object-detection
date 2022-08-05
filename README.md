@@ -1,9 +1,7 @@
 # Django Object Detection With YoloV5
 
 ## Demo of the WebApp
-<video src="https://github.com/CodingMantras/django-object-detection/blob/master/static/Django%20Objdetection.mov" controls="controls" style="max-width: 730px;">
-</video>
-
+https://user-images.githubusercontent.com/104087274/183131139-6a2c9b6d-2f0e-4f25-83b3-df2281eeb489.mov
 
 
 ## Features of the WebApp:
