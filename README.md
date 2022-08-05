@@ -10,7 +10,7 @@
 - Upload multiple images with dropzonejs to the selected imageset.
 
 - Convert uploaded image size to 640 x 640. (For faster detection)
-
+ 
 - Upload/update a custom pre-trained model.(If you have offline files of a model)
 
 - Yolov5 models will download upon selection. (Active internet connection required for this step.)
