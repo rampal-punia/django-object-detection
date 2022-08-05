@@ -5,6 +5,7 @@ from .models import ImageSet, ImageFile
 @admin.register(ImageSet)
 class ImageSetAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'description', 'user']
+    list_display_links = ['id', 'name']
 
 
 @admin.register(ImageFile)

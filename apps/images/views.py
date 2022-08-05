@@ -1,11 +1,13 @@
+import cv2
+
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, DeleteView
 from django.views.generic import View
-from django.http import JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import ImageSet, ImageFile
+from .models import ImageSet, ImageFile, imageset_upload_images_path
 
 
 class ImageSetCreateView(LoginRequiredMixin, CreateView):
@@ -13,8 +15,17 @@ class ImageSetCreateView(LoginRequiredMixin, CreateView):
     fields = ['name', 'description']
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+        if not ImageSet.objects.filter(name=form.instance.name).exists():
+            form.instance.user = self.request.user
+            form.instance.dirpath = form.instance.get_dirpath()
+            print("form.instance.dirpath: ", form.instance.dirpath)
+            return super().form_valid(form)
+        else:
+            form.add_error(
+                'name',
+                f"Imageset with name {form.cleaned_data['name']} already exists in dataset. Add more images to that imageset, if required."
+            )
+            return render(self.request, 'images/imageset_form.html', {'form': form})
 
 
 class ImageSetListView(LoginRequiredMixin, ListView):
@@ -57,7 +68,12 @@ class ImagesUploadView(LoginRequiredMixin, View):
             images = [self.request.FILES.get("file[%d]" % i)
                       for i in range(0, len(self.request.FILES))]
             for img in images:
-                ImageFile.objects.create(image=img, image_set=imageset)
+                if not ImageFile.objects.filter(name=img.name, image_set=imageset).exists():
+                    ImageFile.objects.create(
+                        name=img.name, image=img, image_set=imageset)
+
+                else:
+                    print(f"Image {img.name} already exists in the imageset.")
 
             message = f"Uploading images to the Imageset: {imageset}. \
                 Automatic redirect to the images list after completion."
