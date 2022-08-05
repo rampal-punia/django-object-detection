@@ -7,11 +7,12 @@ Upload ML Model
 
 {% block leftbar %}
 <div class="col-md-3">
+    {% include 'modelmanager/partials/_leftbar.html' %}
 </div>
 {% endblock leftbar %}
 
 {% block content %}
-    <div class="col-md-8 mt-3">
+    <div class="col-md-8">
         <legend class="border-bottom">Upload Pre-trained Model</legend>
         <form action="" method="post" enctype="multipart/form-data" >
             {% csrf_token %}

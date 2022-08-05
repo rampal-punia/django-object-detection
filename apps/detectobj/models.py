@@ -43,6 +43,7 @@ class InferrencedImage(CreationModificationDateBase):
                                   null=True,
                                   blank=True,
                                   choices=YOLOMODEL_CHOICES,
+                                  default=YOLOMODEL_CHOICES[0],
                                   help_text="Selected yolo model will download. \
                                  Requires an active internet connection."
                                   )
