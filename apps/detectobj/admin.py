@@ -4,4 +4,4 @@ from .models import ImageDetection
 
 @admin.register(ImageDetection)
 class ImageDetectionAdmin(admin.ModelAdmin):
-    list_display = ["image", "description", "detectionmodel"]
+    list_display = ["image", "description", "custommodel"]

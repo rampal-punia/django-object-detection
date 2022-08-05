@@ -5,7 +5,7 @@ from .models import ImageDetection
 class ImageDetectionForm(forms.ModelForm):
     class Meta:
         model = ImageDetection
-        fields = ('detectionmodel',)
+        fields = ('custommodel',)
 
 
 class ModelConfidenceForm(forms.Form):

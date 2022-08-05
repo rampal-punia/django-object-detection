@@ -169,6 +169,12 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+YOLOV5_ROOT = BASE_DIR / "yolov5"
+YOLOV5_DATA_DIR = YOLOV5_ROOT / "data"
+YOLOV5_WEIGTHS_DIR = YOLOV5_ROOT / "weights"
+if not os.path.exists(YOLOV5_WEIGTHS_DIR):
+    os.makedirs(YOLOV5_WEIGTHS_DIR, exist_ok=True)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#default-auto-field
 

@@ -1,6 +1,6 @@
 import os
 import io
-from PIL import Image as im
+from PIL import Image as I
 import torch
 import collections
 from ast import literal_eval
@@ -14,6 +14,7 @@ from django.core.paginator import Paginator
 from django.forms.models import model_to_dict
 
 from images.models import ImageFile
+from .models import ImageDetection
 from .forms import ImageDetectionForm, ModelConfidenceForm
 from modelmanager.models import MLModel
 
@@ -27,7 +28,7 @@ class DetectionImageDetailView(LoginRequiredMixin, DetailView):
         img_qs = self.get_object()
         imgset = img_qs.image_set
         images_qs = imgset.images.all()
-        paginator = Paginator(images_qs, 50)
+        paginator = Paginator(images_qs, 20)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
@@ -41,8 +42,8 @@ class DetectionImageDetailView(LoginRequiredMixin, DetailView):
     def post(self, request, *args, **kwargs):
         img_qs = self.get_object()
         img_bytes = img_qs.image.read()
-        img = im.open(io.BytesIO(img_bytes))
-        selected_detection_model_id = self.request.POST.get("detectionmodel")
+        img = I.open(io.BytesIO(img_bytes))
+        selected_detection_model_id = self.request.POST.get("custommodel")
         modelconf = self.request.POST.get("confidence")
         if modelconf:
             modelconf = float(modelconf)
@@ -78,7 +79,7 @@ class DetectionImageDetailView(LoginRequiredMixin, DetailView):
             if not os.path.exists(inferrenced_img_dir):
                 os.makedirs(inferrenced_img_dir)
             for img in results.imgs:
-                img_base64 = im.fromarray(img)
+                img_base64 = I.fromarray(img)
                 img_base64.save(
                     f"{inferrenced_img_dir}/{img_qs}.jpg", format="JPEG")
         torch.cuda.empty_cache()
@@ -88,13 +89,14 @@ class DetectionImageDetailView(LoginRequiredMixin, DetailView):
         paginator = Paginator(images_qs, 50)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
+        # inferrenced_img_qs =
 
         context = {}
         context["img_qs"] = img_qs
         context["page_obj"] = page_obj
         context["is_paginated"] = True if images_qs.count() > 50 else False
         context["form"] = ImageDetectionForm()
-        context["inferrenced_img_dir"] = f"{settings.MEDIA_URL}inferrenced_image/{img_qs.file_name}.jpg"
+        context["inferrenced_img_dir"] = f"{settings.MEDIA_URL}inferrenced_image/{img_qs.name}.jpg"
         context["results_list"] = results_list
         context["results_counter"] = results_counter
         context["form2"] = ModelConfidenceForm()

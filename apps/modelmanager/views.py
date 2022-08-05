@@ -67,8 +67,6 @@ class UserMLModelListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        model_qs = MLModel.objects.get(id=2)
-        context["model_qs"] = model_qs
         return context
 
 

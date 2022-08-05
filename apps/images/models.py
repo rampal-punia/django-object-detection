@@ -61,5 +61,19 @@ class ImageFile(models.Model):
     def get_filename(self):
         return os.path.split(self.image.url[-1])
 
+    @ property
+    def get_imgshape(self):
+        im = I.open(self.get_imagepath)
+        return im.size
+
     def get_delete_url(self):
         return reverse("images:images_list_url", kwargs={"pk": self.image_set.id})
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        img = I.open(self.get_imagepath)
+        if img.height > 640 or img.width > 640:
+            output_size = (640, 640)
+            img.thumbnail(output_size)
+            img.save(self.get_imagepath)

@@ -23,14 +23,18 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-4 px-3">
+                    <div class="col-sm-6">
                         <h3 class="cart-title">Selected Image</h3>
                         <a href="{{ img_qs.get_imageurl }}" data-toggle="lightbox" data-gallery="image-gallery">
                             <img src="{{ img_qs.get_imageurl }}" class="border border-2 border-primary rounded mb-4" width="250" height="auto" />
-                        </a> 
+                        </a>
+                        <div class="">
+                            Image shape: {{ img_qs.get_imgshape }}
+
+                        </div>
                     </div>
-                    <div class="col-sm-4">
-                    <form class="mt-4 mb-3" action="" method="POST">
+                    <div class="col-sm-6">
+                    <form class="mt-2 mb-2" action="" method="POST">
                             {% csrf_token %}
                             {{ form|crispy }}
                             {{ form2 | crispy }}
@@ -67,7 +71,7 @@
                                 {% endif %}
                                 </div>
                             </div>
-                            
+                                
                                 <img src="{{inferrenced_img_dir}}" alt="" class="img-fluid px-4 py-4"  width="120%" height="auto"/>
                             {% endif %}
                         {% endif %}
