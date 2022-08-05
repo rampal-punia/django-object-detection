@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                    <form class="mt-2 mb-2" action="" method="POST">
+                        <form class="mt-2 mb-2" action="" method="POST">
                             {% csrf_token %}
                             {{ form|crispy }}
                             {{ form2 | crispy }}
@@ -45,13 +45,41 @@
                 <hr>
                 <div class="row">
                     <div class="col-sm-12">
-                        {% if request.method == "POST" %}
-                            {% if inferrenced_img_dir %}
+                        {% if inf_img_qs %}
                             <h3 class="cart-title">Inferrenced Image 
-                                <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                    Show Results
-                                </button>
+                            <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Show Results
+                            </button>
                             </h3>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    {% if inf_img_qs.detection_info|length > 0 %}
+                                        <h5 class="cart-title text-muted">Objects detected : 
+                                        <span class="text-success">{{ inf_img_qs.detection_info|length }}</span></h5>
+                                        <hr>
+                                        <h5 class="cart-title text-muted">Objects Occurrances {{ results_counter }}</h5> 
+                                        <hr>
+                                        {{ inf_img_qs.detection_info }}
+                                        {% for result in inf_img_qs.detection_info %}
+                                            {% for k, v in result.items %}
+                                                {{ k }} : {{ v }}<br>
+                                            {% endfor %}
+                                            <hr>
+                                        {% endfor %}
+                                    {% else %}
+                                        Model Unable to predict. Try another model.
+                                    {% endif %}
+                                </div>
+                            </div>
+                                Inferrenced image with model conf {{ inf_img_qs.model_conf }}
+                                <img src="{{ inf_img_qs.inf_image_path }}" alt="" class="img-fluid px-4 py-4"  width="100%" height="auto"/>
+                        {% endif %}
+                            {% if inferrenced_img_dir %}
+                                <h3 class="cart-title">Inferrenced Image 
+                                    <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                        Show Results
+                                    </button>
+                                </h3>
                             <div class="collapse" id="collapseExample">
                                 <div class="card card-body">
                                 {% if results_list|length > 0 %}
@@ -73,7 +101,6 @@
                             </div>
                                 <img src="{{inferrenced_img_dir}}" alt="" class="img-fluid px-4 py-4"  width="120%" height="auto"/>
                             {% endif %}
-                        {% endif %}
                     </div>
                 </div>
             </div>

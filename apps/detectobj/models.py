@@ -16,10 +16,10 @@ class InferrencedImage(CreationModificationDateBase):
         blank=True
     )
 
-    inf_image = models.ImageField(upload_to="inferrenceimages",
-                                  null=True,
-                                  blank=True
-                                  )
+    inf_image_path = models.CharField(max_length=250,
+                                      null=True,
+                                      blank=True
+                                      )
 
     custom_model = models.ForeignKey("modelmanager.MLModel",
                                      verbose_name="Custom ML Models",
@@ -46,9 +46,11 @@ class InferrencedImage(CreationModificationDateBase):
                                  Requires an active internet connection."
                                   )
 
-    model_conf = models.PositiveIntegerField(_('Model confidence'),
-                                             null=True,
-                                             blank=True)
+    model_conf = models.DecimalField(_('Model confidence'),
+                                     decimal_places=2,
+                                     max_digits=4,
+                                     null=True,
+                                     blank=True)
 
     @property
     def get_inferrenced_imageurl(self):
@@ -57,6 +59,3 @@ class InferrencedImage(CreationModificationDateBase):
     def yoloweights_rootdir(self, modelname):
         yolo_weightsdir = settings.YOLOV5_WEIGHTS_ROOT
         self.yolomodel = os.path.join(yolo_weightsdir, modelname)
-
-    def __str__(self):
-        return str(self.image)

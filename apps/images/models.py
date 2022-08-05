@@ -49,6 +49,9 @@ class ImageFile(models.Model):
                                   )
     image = models.ImageField(upload_to=imageset_upload_images_path)
 
+    def __str__(self):
+        return self.name
+
     @ property
     def get_imageurl(self):
         return self.image.url

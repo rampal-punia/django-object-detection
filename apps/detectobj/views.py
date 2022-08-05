@@ -32,6 +32,12 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
+        is_inf_img = InferrencedImage.objects.filter(
+            orig_image=img_qs).exists()
+        if is_inf_img:
+            inf_img_qs = InferrencedImage.objects.get(orig_image=img_qs)
+            context['inf_img_qs'] = inf_img_qs
+
         context["img_qs"] = img_qs
         context["is_paginated"] = True if images_qs.count() > 50 else False
         context["page_obj"] = page_obj
@@ -44,27 +50,28 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         img_bytes = img_qs.image.read()
         img = I.open(io.BytesIO(img_bytes))
         # Get form data
-        selected_custom_model_id = self.request.POST.get("custom_model")
         modelconf = self.request.POST.get("confidence")
         if modelconf:
             modelconf = float(modelconf)
         else:
             modelconf = 0.45
-        selected_yolo_model_id = self.request.POST.get("yolo_model")
-        selected_detection_model = MLModel.objects.get(
-            id=selected_custom_model_id)
-        selected_detection_model_name = selected_detection_model.name
-        base_dir = settings.BASE_DIR
-        yolo_folder = os.path.join(base_dir, "yolov5")
-        # torch.cuda.empty_cache()
-        model = torch.hub.load(
-            yolo_folder,  # path to hubconf file
-            'custom',
-            path=selected_detection_model.pth_filepath,  # Uploaded model path
-            source='local',
-            force_reload=True,
-        )
-        model.conf = modelconf
+        custom_model_id = self.request.POST.get("custom_model")
+        yolo_model_id = self.request.POST.get("yolo_model")
+        if custom_model_id:
+            detection_model = MLModel.objects.get(id=custom_model_id)
+
+            base_dir = settings.BASE_DIR
+            yolo_dir = os.path.join(base_dir, 'yolov5')
+            # torch.cuda.empty_cache()
+            model = torch.hub.load(
+                yolo_dir,  # path to hubconf file
+                'custom',
+                path=detection_model.pth_filepath,  # Uploaded model path
+                source='local',
+                force_reload=True,
+            )
+            model.conf = modelconf
+
         results = model(img, size=640)
         results_list = results.pandas().xyxy[0].to_json(orient="records")
         results_list = literal_eval(results_list)
@@ -72,7 +79,7 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         results_counter = collections.Counter(classes_list)
         if results_list == []:
             messages.warning(
-                request, f'Model "{selected_detection_model_name}" unable to predict. Try with another model.')
+                request, f'Model "{detection_model.name}" unable to predict. Try with another model.')
         else:
             results.render()
             media_folder = settings.MEDIA_ROOT
@@ -83,7 +90,18 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
             for img in results.imgs:
                 img_base64 = I.fromarray(img)
                 img_base64.save(
-                    f"{inferrenced_img_dir}/{img_qs}.jpg", format="JPEG")
+                    f"{inferrenced_img_dir}/{img_qs}", format="JPEG")
+            inf_img_qs, created = InferrencedImage.objects.get_or_create(
+                orig_image=img_qs,
+                inf_image_path=f"{settings.MEDIA_URL}inferrenced_image/{img_qs.name}",
+            )
+            inf_img_qs.detection_info = results_list,
+            inf_img_qs.model_conf = modelconf
+            if custom_model_id:
+                inf_img_qs.custom_model = detection_model
+            elif yolo_model_id:
+                inf_img_qs.yolo_model = yolo_model_id
+            inf_img_qs.save()
         torch.cuda.empty_cache()
         # Ready for rendering next image on same html page.
         imgset = img_qs.image_set
@@ -98,7 +116,7 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         context["page_obj"] = page_obj
         context["is_paginated"] = True if images_qs.count() > 50 else False
         context["form"] = InferrencedImageForm()
-        context["inferrenced_img_dir"] = f"{settings.MEDIA_URL}inferrenced_image/{img_qs.name}.jpg"
+        context["inferrenced_img_dir"] = f"{settings.MEDIA_URL}inferrenced_image/{img_qs}"
         context["results_list"] = results_list
         context["results_counter"] = results_counter
         context["form2"] = ModelConfidenceForm()
