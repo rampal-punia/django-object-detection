@@ -57,7 +57,3 @@ class InferrencedImage(CreationModificationDateBase):
     @property
     def get_inferrenced_imageurl(self):
         return self.inferrenceimage.url
-
-    def yoloweights_rootdir(self, modelname):
-        yolo_weightsdir = settings.YOLOV5_WEIGHTS_ROOT
-        self.yolomodel = os.path.join(yolo_weightsdir, modelname)

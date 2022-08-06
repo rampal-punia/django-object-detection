@@ -49,6 +49,8 @@ class ImageFile(models.Model):
                                   )
     image = models.ImageField(upload_to=imageset_upload_images_path)
 
+    is_inferrenced = models.BooleanField(default=False)
+
     def __str__(self):
         return self.name
 

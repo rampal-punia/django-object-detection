@@ -53,9 +53,6 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         img_bytes = img_qs.image.read()
         img = I.open(io.BytesIO(img_bytes))
 
-        # yolov5 dir path
-        yolo_dir = os.path.join(settings.BASE_DIR, 'yolov5')
-
         # Get form data
         modelconf = self.request.POST.get("confidence")
         if modelconf:
@@ -64,6 +61,10 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
             modelconf = settings.MODEL_CONFIDENCE
         custom_model_id = self.request.POST.get("custom_model")
         yolo_model_name = self.request.POST.get("yolo_model")
+
+        # Yolov5 dirs
+        yolo_dir = settings.YOLOV5_ROOTDIR
+        yolo_weightsdir = settings.YOLOV5_WEIGTHS_DIR
 
         # Whether user selected a custom model for the detection task
         # An offline model will be used for detection provided user has
@@ -82,12 +83,11 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         # Selected yolov5 model will be downloaded, and ready for object
         # detection task. Yolov5 Api's will start working.
         elif yolo_model_name:
-            yolo_model = yolo_model_name
             model = torch.hub.load(
                 yolo_dir,  # path to hubconf file
                 'custom',
                 # Yolov5 model path yolov5/weights/<model_name>.pt
-                path=os.path.join(settings.YOLOV5_WEIGTHS_DIR, yolo_model),
+                path=os.path.join(yolo_weightsdir, yolo_model_name),
                 source='local',
                 force_reload=True,
             )
@@ -128,6 +128,9 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
             inf_img_qs.save()
         torch.cuda.empty_cache()
 
+        # set image is_inferrenced to true
+        img_qs.is_inferrenced = True
+        img_qs.save()
         # Ready for rendering next image on same html page.
         imgset = img_qs.image_set
         images_qs = imgset.images.all()

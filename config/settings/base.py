@@ -169,11 +169,11 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-YOLOV5_ROOT = BASE_DIR / "yolov5"
-YOLOV5_DATA_DIR = YOLOV5_ROOT / "data"
-YOLOV5_WEIGTHS_DIR = YOLOV5_ROOT / "weights"
+YOLOV5_ROOTDIR = os.path.join(BASE_DIR, 'yolov5')
+YOLOV5_DATA_DIR = os.path.join(YOLOV5_ROOTDIR, 'data')
+YOLOV5_WEIGTHS_DIR = os.path.join(YOLOV5_ROOTDIR, 'weights')
 if not os.path.exists(YOLOV5_WEIGTHS_DIR):
-    os.makedirs(YOLOV5_WEIGTHS_DIR, exist_ok=True)
+    os.makedirs(YOLOV5_WEIGTHS_DIR)
 
 MODEL_CONFIDENCE = 0.45
 PAGINATE_DETECTION_IMAGES_NUM = 20
