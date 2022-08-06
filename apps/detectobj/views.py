@@ -29,11 +29,12 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         images_qs = imgset.images.all()
 
         # For pagination
-        num = 20
-        paginator = Paginator(images_qs, num)
+        paginator = Paginator(
+            images_qs, settings.PAGINATE_DETECTION_IMAGES_NUM)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        context["is_paginated"] = True if images_qs.count() > num else False
+        context["is_paginated"] = True if images_qs.count(
+        ) > settings.PAGINATE_DETECTION_IMAGES_NUM else False
         context["page_obj"] = page_obj
 
         is_inf_img = InferrencedImage.objects.filter(
@@ -63,6 +64,10 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
             modelconf = settings.MODEL_CONFIDENCE
         custom_model_id = self.request.POST.get("custom_model")
         yolo_model_name = self.request.POST.get("yolo_model")
+
+        # Whether user selected a custom model for the detection task
+        # An offline model will be used for detection provided user has
+        # uploaded this model.
         if custom_model_id:
             detection_model = MLModel.objects.get(id=custom_model_id)
             model = torch.hub.load(
@@ -72,12 +77,16 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
                 source='local',
                 force_reload=True,
             )
+
+        # Whether user selected a yolo model for the detection task
+        # Selected yolov5 model will be downloaded, and ready for object
+        # detection task. Yolov5 Api's will start working.
         elif yolo_model_name:
             yolo_model = yolo_model_name
             model = torch.hub.load(
                 yolo_dir,  # path to hubconf file
                 'custom',
-                # Uploaded model path
+                # Yolov5 model path yolov5/weights/<model_name>.pt
                 path=os.path.join(settings.YOLOV5_WEIGTHS_DIR, yolo_model),
                 source='local',
                 force_reload=True,
@@ -105,12 +114,12 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
                 img_base64.save(
                     f"{inferrenced_img_dir}/{img_qs}", format="JPEG")
 
-            # Create/Edit the InferrencedImage instance
+            # Create/update the InferrencedImage instance
             inf_img_qs, created = InferrencedImage.objects.get_or_create(
                 orig_image=img_qs,
                 inf_image_path=f"{settings.MEDIA_URL}inferrenced_image/{img_qs.name}",
             )
-            inf_img_qs.detection_info = results_list,
+            inf_img_qs.detection_info = results_list
             inf_img_qs.model_conf = modelconf
             if custom_model_id:
                 inf_img_qs.custom_model = detection_model
@@ -124,12 +133,13 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         images_qs = imgset.images.all()
 
         # For pagination
-        num = 20
-        paginator = Paginator(images_qs, num)
+        paginator = Paginator(
+            images_qs, settings.PAGINATE_DETECTION_IMAGES_NUM)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         context = {}
-        context["is_paginated"] = True if images_qs.count() > num else False
+        context["is_paginated"] = True if images_qs.count(
+        ) > settings.PAGINATE_DETECTION_IMAGES_NUM else False
         context["page_obj"] = page_obj
 
         context["img_qs"] = img_qs
