@@ -4,14 +4,15 @@
 https://user-images.githubusercontent.com/104087274/183131139-6a2c9b6d-2f0e-4f25-83b3-df2281eeb489.mov
 
 
-## Features of the WebApp:
+#### This is a project to demonstrate easy integration of YoloV5 in Django WebApp and not a full-fledged production ready app though can be scaled to work as one.
 
-- Create/Edit imagesets.
-- Upload multiple images with dropzonejs to the selected imageset.
+## Features of the WebApp:
+- Create/Edit ImageSets.
+- Upload multiple images with dropzonejs to the selected ImageSet.
 - Convert uploaded image size to 640 x 640. (For faster detection)
 - Upload/update a custom pre-trained model.(If you have offline files of a model)
-- Yolov5 models will download upon selection. (Active internet connection required for this step.)
-- Detect object on an image with yolov5/custom pre-trained model.
+- YoloV5 models will download upon selection. (Active internet connection required for this step.)
+- Detect object on an image with YoloV5/custom pre-trained model.
 
 ### Note
 a default.png in media is required for user-profile. Create media folder and add a  'default.png' file here.
@@ -37,13 +38,13 @@ python manage.py runserver
 login
 # Login at the web address 127.0.0.1:8000 using the superuser credentials.
 
-Create imageset
-# create an imageset first and then upload images into the imageset from imageset detail page.
+Create ImageSet
+# create an ImageSet first and then upload images into the ImageSet from ImageSet detail page.
 
 # On images list page click on detect object.
 
-# select a yolo model
-# the yolo dependencies and pre-trained model will start downloading.
+# select a YoloV5 model
+# the YoloV5 dependencies and pre-trained model will start downloading.
 ```
 
 ## Apps:
@@ -55,7 +56,7 @@ Create imageset
 ## Main dependencies
 
 - Django
-- Yolov5
+- YoloV5
 - Pytorch
 - Torchvision
 - Tensorboard
