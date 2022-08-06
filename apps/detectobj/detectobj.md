@@ -4,7 +4,7 @@
     name -- imagename
     image -- imagefile
     description -- image file description
-    inferrenceimage -- detected image
+    inference image -- detected image
     detectionmodel -- foreign key to the trained models
     detectioninfo -- json field storing detection information with keys.
 
@@ -12,4 +12,4 @@
     Form
         - Upload image
         - Select model
-        - Display the inferrenceimage
+        - Display the inference image

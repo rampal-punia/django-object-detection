@@ -13,14 +13,14 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 
 from images.models import ImageFile
-from .models import InferrencedImage
-from .forms import InferrencedImageForm, YoloModelForm
+from .models import InferencedImage
+from .forms import InferencedImageForm, YoloModelForm
 from modelmanager.models import MLModel
 
 
-class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
+class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
     model = ImageFile
-    template_name = "detectobj/select_inferrence_image.html"
+    template_name = "detectobj/select_inference_image.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -37,15 +37,15 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         ) > settings.PAGINATE_DETECTION_IMAGES_NUM else False
         context["page_obj"] = page_obj
 
-        is_inf_img = InferrencedImage.objects.filter(
+        is_inf_img = InferencedImage.objects.filter(
             orig_image=img_qs).exists()
         if is_inf_img:
-            inf_img_qs = InferrencedImage.objects.get(orig_image=img_qs)
+            inf_img_qs = InferencedImage.objects.get(orig_image=img_qs)
             context['inf_img_qs'] = inf_img_qs
 
         context["img_qs"] = img_qs
         context["form1"] = YoloModelForm()
-        context["form2"] = InferrencedImageForm()
+        context["form2"] = InferencedImageForm()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -105,19 +105,19 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         else:
             results.render()
             media_folder = settings.MEDIA_ROOT
-            inferrenced_img_dir = os.path.join(
-                media_folder, "inferrenced_image")
-            if not os.path.exists(inferrenced_img_dir):
-                os.makedirs(inferrenced_img_dir)
+            inferenced_img_dir = os.path.join(
+                media_folder, "inferenced_image")
+            if not os.path.exists(inferenced_img_dir):
+                os.makedirs(inferenced_img_dir)
             for img in results.imgs:
                 img_base64 = I.fromarray(img)
                 img_base64.save(
-                    f"{inferrenced_img_dir}/{img_qs}", format="JPEG")
+                    f"{inferenced_img_dir}/{img_qs}", format="JPEG")
 
-            # Create/update the InferrencedImage instance
-            inf_img_qs, created = InferrencedImage.objects.get_or_create(
+            # Create/update the inferencedImage instance
+            inf_img_qs, created = InferencedImage.objects.get_or_create(
                 orig_image=img_qs,
-                inf_image_path=f"{settings.MEDIA_URL}inferrenced_image/{img_qs.name}",
+                inf_image_path=f"{settings.MEDIA_URL}inferenced_image/{img_qs.name}",
             )
             inf_img_qs.detection_info = results_list
             inf_img_qs.model_conf = modelconf
@@ -128,8 +128,8 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
             inf_img_qs.save()
         torch.cuda.empty_cache()
 
-        # set image is_inferrenced to true
-        img_qs.is_inferrenced = True
+        # set image is_inferenced to true
+        img_qs.is_inferenced = True
         img_qs.save()
         # Ready for rendering next image on same html page.
         imgset = img_qs.image_set
@@ -146,9 +146,9 @@ class InferrencedImageDetectionView(LoginRequiredMixin, DetailView):
         context["page_obj"] = page_obj
 
         context["img_qs"] = img_qs
-        context["inferrenced_img_dir"] = f"{settings.MEDIA_URL}inferrenced_image/{img_qs}"
+        context["inferenced_img_dir"] = f"{settings.MEDIA_URL}inferenced_image/{img_qs}"
         context["results_list"] = results_list
         context["results_counter"] = results_counter
         context["form1"] = YoloModelForm()
-        context["form2"] = InferrencedImageForm()
+        context["form2"] = InferencedImageForm()
         return render(self.request, self.template_name, context)

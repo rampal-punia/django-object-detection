@@ -10,4 +10,4 @@ class ImageSetAdmin(admin.ModelAdmin):
 
 @admin.register(ImageFile)
 class ImageFileAdmin(admin.ModelAdmin):
-    list_display = ['id', 'image_set', 'image', 'is_inferrenced']
+    list_display = ['id', 'image_set', 'image', 'is_inferenced']

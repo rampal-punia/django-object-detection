@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from config.models import CreationModificationDateBase
 
 
-class InferrencedImage(CreationModificationDateBase):
+class InferencedImage(CreationModificationDateBase):
     orig_image = models.ForeignKey(
         "images.ImageFile",
         on_delete=models.CASCADE,
@@ -53,7 +53,3 @@ class InferrencedImage(CreationModificationDateBase):
                                      max_digits=4,
                                      null=True,
                                      blank=True)
-
-    @property
-    def get_inferrenced_imageurl(self):
-        return self.inferrenceimage.url

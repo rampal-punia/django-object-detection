@@ -1,8 +1,8 @@
 from django import forms
-from .models import InferrencedImage
+from .models import InferencedImage
 
 
-class InferrencedImageForm(forms.ModelForm):
+class InferencedImageForm(forms.ModelForm):
     model_conf = forms.DecimalField(label="Model confidence",
                                     max_value=1,
                                     min_value=0.25,
@@ -13,7 +13,7 @@ class InferrencedImageForm(forms.ModelForm):
                                     )
 
     class Meta:
-        model = InferrencedImage
+        model = InferencedImage
         fields = ('custom_model', 'model_conf')
 
 
@@ -28,5 +28,5 @@ class YoloModelForm(forms.ModelForm):
                                     )
 
     class Meta:
-        model = InferrencedImage
+        model = InferencedImage
         fields = ('yolo_model', 'model_conf')

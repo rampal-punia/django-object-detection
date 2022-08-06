@@ -5,7 +5,7 @@ app_name = "detectobj"
 
 urlpatterns = [
     path("<int:pk>/selected_image/",
-         views.InferrencedImageDetectionView.as_view(),
+         views.InferencedImageDetectionView.as_view(),
          name="detection_image_detail_url"
          ),
 ]
