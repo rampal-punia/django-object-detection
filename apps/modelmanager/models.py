@@ -97,6 +97,9 @@ class MLModel(CreationModificationDateBase):
         return os.path.splitext(self.class_file.name)[-1]
 
     def get_classesname(self):
+        # For YOLO the class names can be extracted from the model instance.
+        # classname = model.names
+        # This method is for custom model update (for specified classes)
         if self.cls_filetype.lower() == '.yaml':
             with open(self.cls_filepath, 'r') as yaml_cls_file:
                 classes = yaml.safe_load(yaml_cls_file)

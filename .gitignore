@@ -13,6 +13,9 @@ project_utils
 # media folder
 media
 
+# Local folder
+local
+
 # C extensions
 *.so
 

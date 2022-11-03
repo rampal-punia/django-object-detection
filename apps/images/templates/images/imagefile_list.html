@@ -9,19 +9,25 @@
 <div class="col-md-9 mt-2">
     <div class="row">
         {% for image in images %}
-        {% with image.get_imageurl as imgurl %}
-        <div class="col-sm-3">
-            <a href="{{ imgurl }}" data-toggle="lightbox" data-gallery="image-gallery">
-                <img src="{{ imgurl }}" alt="" class="img-fluid mx-1 my-1" width="250px" height="250px" />
-            </a>
-            <a href="{% url 'images:image_delete_url' image.image_set.id image.id %}" class="btn btn-sm btn-outline-success mx-1 my-1">
-                <img src="{% static 'img/cross.png' %}" alt="" />
-            </a>
-            <a href="{% url 'detectobj:detection_image_detail_url' image.id %}" class="btn btn-sm btn-outline-success mx-1 my-1">
-                Detect Objects
-            </a>
-        </div>
-        {% endwith %}
+            {% with image.get_imageurl as imgurl %}
+            <div class="col-sm-3">
+                <a href="{{ imgurl }}" data-toggle="lightbox" data-gallery="image-gallery">
+                    <img src="{{ imgurl }}" alt="" class="img-fluid mx-1 my-1" width="250px" height="250px" />
+                </a>
+                <a href="{% url 'images:image_delete_url' image.image_set.id image.id %}" class="btn btn-sm btn-outline-success mx-1 my-1">
+                    <img src="{% static 'img/cross.png' %}" alt="" />
+                </a>
+                <a href="{% url 'detectobj:detection_image_detail_url' image.id %}" class="btn btn-sm btn-outline-success mx-1 my-1">
+                    Detect Objects
+                </a>
+            </div>
+            {% endwith %}
+        {%empty%}
+            <div class="card">
+                <div class="card-body">
+                    Nil image to display!
+                </div>
+            </div>
         {% endfor %}
     </div>
     

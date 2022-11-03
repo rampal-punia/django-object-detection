@@ -64,7 +64,7 @@ class ImageFile(models.Model):
 
     @ property
     def get_filename(self):
-        return os.path.split(self.image.url[-1])
+        return os.path.split(self.image.url)[-1]
 
     @ property
     def get_imgshape(self):
@@ -75,6 +75,7 @@ class ImageFile(models.Model):
         return reverse("images:images_list_url", kwargs={"pk": self.image_set.id})
 
     def save(self, *args, **kwargs):
+        # Convert image to 640px before saving.
         super().save(*args, **kwargs)
 
         img = I.open(self.get_imagepath)

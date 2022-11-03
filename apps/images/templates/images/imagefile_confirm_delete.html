@@ -7,7 +7,7 @@
 
 {% block leftbar %}
 <div class="col-md-3">
-    {% include 'partials/_leftbar.html' %}
+    {% include 'images/partials/_leftbar.html' %}
 </div>
 {% endblock leftbar %}
 
@@ -16,7 +16,7 @@
     <form action="" method="post">
     {% csrf_token %}
       <div class="alert alert-danger" role="alert">
-      You are about to delete the Image {{ object.get_filename|capfirst }}.
+      You are about to delete the Image "{{ object.get_filename|capfirst }}".
       </div>
     <input type="submit" value="Confirm Delete" class="btn btn-outline-danger">
   </form>

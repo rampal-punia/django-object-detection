@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from .models import MLModel
 

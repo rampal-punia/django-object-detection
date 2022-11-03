@@ -28,14 +28,8 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
         imgset = img_qs.image_set
         images_qs = imgset.images.all()
 
-        # For pagination
-        paginator = Paginator(
-            images_qs, settings.PAGINATE_DETECTION_IMAGES_NUM)
-        page_number = self.request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        context["is_paginated"] = True if images_qs.count(
-        ) > settings.PAGINATE_DETECTION_IMAGES_NUM else False
-        context["page_obj"] = page_obj
+        # For pagination GET request
+        self.get_pagination(context, images_qs)
 
         is_inf_img = InferencedImage.objects.filter(
             orig_image=img_qs).exists()
@@ -47,6 +41,15 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
         context["form1"] = YoloModelForm()
         context["form2"] = InferencedImageForm()
         return context
+
+    def get_pagination(self, context, images_qs):
+        paginator = Paginator(
+            images_qs, settings.PAGINATE_DETECTION_IMAGES_NUM)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context["is_paginated"] = True if images_qs.count(
+        ) > settings.PAGINATE_DETECTION_IMAGES_NUM else False
+        context["page_obj"] = page_obj
 
     def post(self, request, *args, **kwargs):
         img_qs = self.get_object()
@@ -78,6 +81,7 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
                 source='local',
                 force_reload=True,
             )
+            # print(model.names)
 
         # Whether user selected a yolo model for the detection task
         # Selected yolov5 model will be downloaded, and ready for object
@@ -93,6 +97,7 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
             )
 
         model.conf = modelconf
+        # classnames = model.names  (display classes in the model)
 
         results = model(img, size=640)
         results_list = results.pandas().xyxy[0].to_json(orient="records")
@@ -135,15 +140,9 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
         imgset = img_qs.image_set
         images_qs = imgset.images.all()
 
-        # For pagination
-        paginator = Paginator(
-            images_qs, settings.PAGINATE_DETECTION_IMAGES_NUM)
-        page_number = self.request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+        # For pagination POST request
         context = {}
-        context["is_paginated"] = True if images_qs.count(
-        ) > settings.PAGINATE_DETECTION_IMAGES_NUM else False
-        context["page_obj"] = page_obj
+        self.get_pagination(context, images_qs)
 
         context["img_qs"] = img_qs
         context["inferenced_img_dir"] = f"{settings.MEDIA_URL}inferenced_image/{img_qs}"
