@@ -53,7 +53,7 @@ Create ImageSet
 - modelmanager
 - users
 
-## Main dependencies
+## Main dependencies (For requirement.txt)
 
 - Django
 - YoloV5

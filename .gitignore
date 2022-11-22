@@ -6,6 +6,9 @@ project_utils
 *.pt
 !media/default.png
 
+# Local test app
+apps/test_app
+
 # images
 *.jpg
 # */*.png 

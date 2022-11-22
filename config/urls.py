@@ -30,6 +30,7 @@ urlpatterns = [
     path('modelmanager/', include("modelmanager.urls", namespace="modelmanager")),
     # path('croppedimages/', include("croppedimages.urls", namespace="croppedimages")),
     path('images/', include("images.urls", namespace="images")),
+    # path('test/', include("test_app.urls", namespace="test_app")),
 
 
 ]
