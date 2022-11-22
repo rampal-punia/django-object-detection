@@ -21,10 +21,15 @@ An image with the name **default.png** in media folder is required for user-prof
 ```bash
 clone the repo locally
 
-create virtual env
+create virtual env 
 
 # install dependencies
-pip install -r requirements.txt
+pip install django
+pip install django-crispy-forms
+pip install django-cleanup
+pip install django-debug-toolbar
+pip install celery
+pip install yolov5
 
 # migrate
 python manage.py migrate
@@ -52,17 +57,6 @@ Create ImageSet
 - images
 - modelmanager
 - users
-
-## Main dependencies (For requirement.txt)
-
-- Django
-- YoloV5
-- Pytorch
-- Torchvision
-- Tensorboard
-- Pillow
-- django-crispy-forms
-- django-cleanup
 
 ## Javascript library
 - dropzonejs

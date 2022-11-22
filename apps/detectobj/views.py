@@ -4,6 +4,7 @@ from PIL import Image as I
 import torch
 import collections
 from ast import literal_eval
+import yolov5
 
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -66,7 +67,6 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
         yolo_model_name = self.request.POST.get("yolo_model")
 
         # Yolov5 dirs
-        yolo_dir = settings.YOLOV5_ROOTDIR
         yolo_weightsdir = settings.YOLOV5_WEIGTHS_DIR
 
         # Whether user selected a custom model for the detection task
@@ -74,27 +74,14 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
         # uploaded this model.
         if custom_model_id:
             detection_model = MLModel.objects.get(id=custom_model_id)
-            model = torch.hub.load(
-                yolo_dir,  # path to hubconf file
-                'custom',
-                path=detection_model.pth_filepath,  # Uploaded model path
-                source='local',
-                force_reload=True,
-            )
+            model = yolov5.load(detection_model.pth_filepath)
             # print(model.names)
 
         # Whether user selected a yolo model for the detection task
         # Selected yolov5 model will be downloaded, and ready for object
         # detection task. Yolov5 Api's will start working.
         elif yolo_model_name:
-            model = torch.hub.load(
-                yolo_dir,  # path to hubconf file
-                'custom',
-                # Yolov5 model path yolov5/weights/<model_name>.pt
-                path=os.path.join(yolo_weightsdir, yolo_model_name),
-                source='local',
-                force_reload=True,
-            )
+            model = yolov5.load(os.path.join(yolo_weightsdir, yolo_model_name))
 
         model.conf = modelconf
         # classnames = model.names  (display classes in the model)
@@ -114,7 +101,9 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
                 media_folder, "inferenced_image")
             if not os.path.exists(inferenced_img_dir):
                 os.makedirs(inferenced_img_dir)
-            for img in results.imgs:
+
+            # print(dir(results))
+            for img in results.ims:
                 img_base64 = I.fromarray(img)
                 img_base64.save(
                     f"{inferenced_img_dir}/{img_qs}", format="JPEG")
