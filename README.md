@@ -1,12 +1,13 @@
 # Django Object Detection With YoloV5
 
 ## Demo of the WebApp
-https://user-images.githubusercontent.com/104087274/183131139-6a2c9b6d-2f0e-4f25-83b3-df2281eeb489.mov
 
+<https://user-images.githubusercontent.com/104087274/183131139-6a2c9b6d-2f0e-4f25-83b3-df2281eeb489.mov>
 
-#### This is a project to demonstrate easy integration of YoloV5 in Django WebApp and not a full-fledged production ready app though can be scaled to work as one.
+### This is a project to demonstrate easy integration of YoloV5 in Django WebApp and not a full-fledged production ready app though can be scaled to work as one
 
-## Features of the WebApp:
+## Features of the WebApp
+
 - Create/Edit ImageSets.
 - Upload multiple images with dropzonejs to the selected ImageSet.
 - Convert uploaded image size to 640 x 640. (For faster detection)
@@ -15,9 +16,11 @@ https://user-images.githubusercontent.com/104087274/183131139-6a2c9b6d-2f0e-4f25
 - Detect object on an image with YoloV5/custom pre-trained model.
 
 ### Note
+
 An image with the name **default.png** in media folder is required for user-profile. Create media folder and add any image file with this name 'default.png'.
 
-## Steps to use locally.
+## Steps to use locally
+
 ```bash
 clone the repo locally
 
@@ -52,19 +55,18 @@ Create ImageSet
 # the YoloV5 dependencies and pre-trained model will start downloading.
 ```
 
-## Apps:
+## Apps
+
 - Detectobj
 - images
 - modelmanager
 - users
 
 ## Javascript library
+
 - dropzonejs
 - ekko-lightbox
 
 ## Django starter template used
+
 [DjangoAdvancedBoilerplate](https://github.com/CodingMantras/DjangoAdvancedBoilerplate)
-
-
-
-

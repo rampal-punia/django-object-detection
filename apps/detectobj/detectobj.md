@@ -1,6 +1,7 @@
-# This app is to detect object on a given image.
+# This app is to detect object on a given image
 
 ## Model
+
     name -- imagename
     image -- imagefile
     description -- image file description
@@ -9,6 +10,7 @@
     detectioninfo -- json field storing detection information with keys.
 
 ## View
+
     Form
         - Upload image
         - Select model
