@@ -106,8 +106,7 @@ class MLModel(CreationModificationDateBase):
                 return classes.get('names')
         elif self.cls_filetype.lower() == '.txt':
             with open(self.cls_filepath, 'r') as txt_cls_file:
-                classes = txt_cls_file.readlines()
-                return classes
+                return txt_cls_file.readlines()
 
     def get_absolute_url(self):
         return reverse("modelmanager:user_mlmodel_list_url")

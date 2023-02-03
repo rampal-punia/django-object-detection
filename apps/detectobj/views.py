@@ -32,9 +32,9 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
         # For pagination GET request
         self.get_pagination(context, images_qs)
 
-        is_inf_img = InferencedImage.objects.filter(
-            orig_image=img_qs).exists()
-        if is_inf_img:
+        if is_inf_img := InferencedImage.objects.filter(
+            orig_image=img_qs
+        ).exists():
             inf_img_qs = InferencedImage.objects.get(orig_image=img_qs)
             context['inf_img_qs'] = inf_img_qs
 
@@ -48,8 +48,9 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
             images_qs, settings.PAGINATE_DETECTION_IMAGES_NUM)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        context["is_paginated"] = True if images_qs.count(
-        ) > settings.PAGINATE_DETECTION_IMAGES_NUM else False
+        context["is_paginated"] = (
+            images_qs.count() > settings.PAGINATE_DETECTION_IMAGES_NUM
+        )
         context["page_obj"] = page_obj
 
     def post(self, request, *args, **kwargs):
@@ -59,10 +60,7 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
 
         # Get form data
         modelconf = self.request.POST.get("confidence")
-        if modelconf:
-            modelconf = float(modelconf)
-        else:
-            modelconf = settings.MODEL_CONFIDENCE
+        modelconf = float(modelconf) if modelconf else settings.MODEL_CONFIDENCE
         custom_model_id = self.request.POST.get("custom_model")
         yolo_model_name = self.request.POST.get("yolo_model")
 

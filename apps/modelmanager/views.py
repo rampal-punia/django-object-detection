@@ -66,8 +66,7 @@ class UserMLModelListView(LoginRequiredMixin, ListView):
         return super().get_queryset().filter(uploader=self.request.user).order_by('-created')
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+        return super().get_context_data(**kwargs)
 
 
 class PublicMLModelListView(LoginRequiredMixin, ListView):

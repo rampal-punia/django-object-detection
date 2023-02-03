@@ -29,8 +29,7 @@ class ImageSet(CreationModificationDateBase):
         return f'{self.name.capitalize()}'
 
     def get_dirpath(self):
-        rootdir = os.path.join(self.user.username, self.name)
-        return rootdir
+        return os.path.join(self.user.username, self.name)
 
     def get_absolute_url(self):
         return reverse("images:imageset_detail_url", kwargs={"pk": self.pk})
