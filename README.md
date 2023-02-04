@@ -4,7 +4,9 @@
 
 <https://user-images.githubusercontent.com/104087274/183131139-6a2c9b6d-2f0e-4f25-83b3-df2281eeb489.mov>
 
-### This is a project to demonstrate easy integration of YoloV5 in Django WebApp and not a full-fledged production ready app though can be scaled to work as one
+### A project to demonstrate easy integration of YoloV5 in Django WebApp
+
+Note: This is not a full-fledged production ready app though can be scaled to work as one.
 
 ## Features of the WebApp
 
