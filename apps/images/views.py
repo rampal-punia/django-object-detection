@@ -33,17 +33,16 @@ class ImageSetUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         if not ImageSet.objects.filter(name=form.instance.name).exists():
             return super().form_valid(form)
-        else:
-            print("entered in else")
-            form.add_error(
-                'name',
-                f"Imageset with name {form.cleaned_data['name']} already exists in dataset. \
+        print("entered in else")
+        form.add_error(
+            'name',
+            f"Imageset with name {form.cleaned_data['name']} already exists in dataset. \
                      Add more images to that imageset, if required."
-            )
-            context = {
-                'form': form
-            }
-            return render(self.request, 'images/imageset_form.html', context)
+        )
+        context = {
+            'form': form
+        }
+        return render(self.request, 'images/imageset_form.html', context)
 
     def get_success_url(self):
         return reverse('images:imageset_detail_url', kwargs={'pk': self.object.id})
@@ -86,8 +85,10 @@ class ImagesUploadView(LoginRequiredMixin, View):
         imageset_id = self.kwargs.get("pk")
         imageset = get_object_or_404(ImageSet, id=imageset_id)
         if self.request.method == 'POST':
-            images = [self.request.FILES.get("file[%d]" % i)
-                      for i in range(0, len(self.request.FILES))]
+            images = [
+                self.request.FILES.get("file[%d]" % i)
+                for i in range(len(self.request.FILES))
+            ]
             for img in images:
                 if not ImageFile.objects.filter(name=img.name, image_set=imageset).exists():
                     ImageFile.objects.create(
