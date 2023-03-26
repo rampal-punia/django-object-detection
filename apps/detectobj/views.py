@@ -19,7 +19,7 @@ from .forms import InferencedImageForm, YoloModelForm
 from modelmanager.models import MLModel
 
 
-class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
+class InferenceImageDetectionView(LoginRequiredMixin, DetailView):
     model = ImageFile
     template_name = "detectobj/select_inference_image.html"
 
@@ -60,7 +60,8 @@ class InferencedImageDetectionView(LoginRequiredMixin, DetailView):
 
         # Get form data
         modelconf = self.request.POST.get("confidence")
-        modelconf = float(modelconf) if modelconf else settings.MODEL_CONFIDENCE
+        modelconf = float(
+            modelconf) if modelconf else settings.MODEL_CONFIDENCE
         custom_model_id = self.request.POST.get("custom_model")
         yolo_model_name = self.request.POST.get("yolo_model")
 
