@@ -29,12 +29,7 @@ clone the repo locally
 create virtual env 
 
 # install dependencies
-pip install django
-pip install django-crispy-forms
-pip install django-cleanup
-pip install django-debug-toolbar
-pip install celery
-pip install yolov5
+pip install -r requirements.txt
 
 # migrate
 python manage.py migrate
