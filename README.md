@@ -26,11 +26,12 @@ An image with the name **default.png** in media folder is required for user-prof
 ```bash
 clone the repo locally
 
-create virtual env 
+create virtual environment
 
 # install dependencies
 pip install django
 pip install django-crispy-forms
+pip install crispy-bootstrap4
 pip install django-cleanup
 pip install django-debug-toolbar
 pip install celery
