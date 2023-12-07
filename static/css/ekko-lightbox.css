@@ -46,7 +46,7 @@
     align-items: center;
     opacity: 0;
     transition: opacity .5s;
-    color: rgb(68, 22, 32);
+    color: #fff;
     font-size: 30px;
     z-index: 1
 }
